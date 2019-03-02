@@ -4,10 +4,10 @@ node_modules
 
 # dependencies
 /node_modules
-/.pnp
+.pnp
 .pnp.js
 /panel/node_modules
-/package-lock.json
+package-lock.json
 .vscode
 
 # testing
