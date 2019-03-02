@@ -30,7 +30,7 @@ export default class PrivateRouter extends Component{
             return <p>Waiting ...</p>
         }
         if (isAllow){
-            return <Route path={path} render={() => <component user={this.state.user}/>} />
+            return <Route path={path} component={component} />
             
         }
         return <Redirect to="login"/>

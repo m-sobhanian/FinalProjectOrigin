@@ -9,7 +9,7 @@ const user = require('./api/user');
 
 const passport = require('passport');
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/FinalProject1", {useCreateIndex: true, useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/FinalProject2", {useCreateIndex: true, useNewUrlParser: true });
 
 // var db = mongoose.connect('mongodb://localhost:27017/FinalProject1', {useCreateIndex: true, useNewUrlParser: true },function(err, res){
 //     if(err){ console.log('Failed to connect to ' + db); }  
