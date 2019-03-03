@@ -4,14 +4,26 @@ import {NewArticle} from '../components'
 import {ViewMyArticles} from '../components'
 
 class Dashboard extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      articleArray : []
+    }
+  }
+  
     logout=()=>{
         localStorage.removeItem('loginData');
         window.location="/panel/login";
     }
     
+    addArticle = (article) => {
+      let {articleArray}=this.state;
+      articleArray=[];
+      articleArray.push(article);
+      this.setState({articleArray});
+    }
     render() {
-      // const {user}= this.props;
-      // console.log(user);
+        // console.log("Dashboard")
         return <Jumbotron>
           <Row className="justify-content-md-center">
           <Col md={2}>
@@ -39,10 +51,10 @@ class Dashboard extends Component {
     <Col sm={9}>
       <Tab.Content>
         <Tab.Pane eventKey="first">
-        <NewArticle/>
+        <NewArticle add={this.addArticle}/>
         </Tab.Pane>
         <Tab.Pane eventKey="second">
-        <ViewMyArticles/>
+        <ViewMyArticles articleArray={this.state.articleArray}/>
         </Tab.Pane>
       </Tab.Content>
     </Col>

@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const article = new Schema({
     name:{
         type: String,
-        required: true
+        required: true,
+        unique : true
     },
     author: {
         type: Schema.Types.ObjectId,

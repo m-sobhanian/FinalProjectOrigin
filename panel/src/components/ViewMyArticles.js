@@ -1,33 +1,40 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
 import {Article} from '../components';
-import {Button} from 'react-bootstrap';
 
 
 class ViewMyArticles extends Component {
-    state={
-        message:'',
-        articles:[]
+    constructor(props) {
+        super(props);
+        this.state={
+            message:'',
+            articles:[]
+        }        
+        const data={};
+        Axios.post('//localhost:3000/api/user/viewMyArticles',data)
+        .then(response=>{
+            if (response.data.success){
+                this.setState({articles:response.data.articles});
+            }else {
+                this.setState({message: response.data.msg })
+                
+            }
+        });
     }
-    view =() => {
-const data={};
-Axios.post('//localhost:3000/api/user/viewMyArticles',data)
-.then(response=>{
-    if (response.data.success){
-        console.log(response.data.articles)
-        this.setState({articles:response.data.articles});
-    }else {
-        this.setState({message: response.data.msg })
-        
-    }
-});
-    }
-    
+   
     render () {
+        // console.log("ViewMyArticle")
         const {articles}=this.state;
-        
+        const {articleArray}=this.props;
+        let articleAdded=articleArray;
+       
+            if(articleAdded.length!==0){
+                articleAdded.forEach(element => {
+                    articles.push(element);
+                });
+                articleAdded.length=0;
+            }
             return <div>
-                    <Button variant="outline-primary" onClick={this.view}>View</Button>
                    
                 {
                    articles.map(article=> {
