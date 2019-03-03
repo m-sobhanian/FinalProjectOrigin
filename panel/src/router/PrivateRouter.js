@@ -23,7 +23,7 @@ export default class PrivateRouter extends Component{
         }
     }
     render() {
-        console.log(this.state.user)
+        // console.log(this.state.user)
         const {path,component} = this.props;
         const {isAllow,isRequest} = this.state;
         if (isRequest) {

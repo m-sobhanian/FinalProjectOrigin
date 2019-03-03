@@ -28,7 +28,8 @@ class NewArticle extends Component {
             dateArticle : event.target["dateArticle"].value,
             FCM: '1'
         }
-        console.log(data);
+        
+        console.log("dataaaaaaaa: " + data);
         Axios.post('//localhost:3000/api/user/newArticle',data)
         .then(response=>{
             if (response.data.success){
