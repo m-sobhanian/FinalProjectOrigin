@@ -12,6 +12,7 @@ const user = new Schema({
     username: {
         type: String,
         required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -29,7 +30,7 @@ const user = new Schema({
     },
     role: {
          type: String,
-         required: true,
+         required: true
      }
     //  pic: {
     //      type: String
