@@ -7,21 +7,21 @@ passport.use('local-login', new LocalStrategy(function (username, password, done
 
     User.findOne({username : username}, function (err, user) {
         if (err){
-            console.log('>>>>>>>>>>>>>>>>>>>>>>err');
+            console.log('error');
             return done(err);
         }
     
         if (!user) {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>!user');
+            console.log('username is wrongggggg');
             return done(null, false, {})
         }
     
         if (user.password !== password) {
-            console.log('>>>>>>>>>>>>>>>>>>>>>>pass');
+            console.log('password is wrongggggg');
             return done(null, false, {})
         }
     
-        console.log('+++++++++++++++++++++user');
+        console.log('username and password is okkkk');
         return done(null, user)
     })
 }));
