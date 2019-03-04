@@ -31,10 +31,10 @@ const user = new Schema({
     role: {
          type: String,
          required: true
+     },
+     pic: {
+         type: String
      }
-    //  pic: {
-    //      type: String
-    //  }
 });
 
 module.exports = mongoose.model('user', user);
