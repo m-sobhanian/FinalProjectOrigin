@@ -48,6 +48,7 @@ class Dashboard extends Component {
     render() {
         console.log("Dashboarddddddd")
         const {user, isRequest}=this.state;
+        console.log(user["pic"])
       if(isRequest){
         return <p>Waiting ...</p>
       }
@@ -58,6 +59,7 @@ class Dashboard extends Component {
             </Col>
             <Col md={10}>
             <h1>Welcome {user["firstname"] + " " + user["lastname"]}</h1>
+            <img src={"../../../" + user["pic"]}/>
             </Col>
             </Row>
          

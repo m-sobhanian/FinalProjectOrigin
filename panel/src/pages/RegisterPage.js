@@ -7,15 +7,15 @@ class RegisterPage extends Component {
 state = {
     error : null,
     addNew:{},
-    message:''
+    message:'',
+    file: null
 }
 
 onChange= (event) =>{
         const {name, value, type}=event.target;
         const {addNew}=this.state;
         if(type==="file"){
-            console.log(event.target.files[0]);
-            addNew[name]=event.target.files[0];
+            this.setState({file:event.target.files[0]});
         }
         addNew[name]=value;
         this.setState({addNew})
@@ -24,23 +24,30 @@ onChange= (event) =>{
     onSubmit = (event) => {
         event.preventDefault();
         const {addNew}=this.state;
-        const formData = new FormData();
-        formData.append('pic',addNew["pic"]);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-
-        if((addNew["fname"]===""||addNew["fname"]===undefined) || (addNew["lname"]==="" || addNew["lname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["optradio"]==="" || addNew["optradio"]===undefined) || (addNew["pic"]==="" || addNew["pic"]===undefined)){
+        
+        if((addNew["fname"]===""||addNew["fname"]===undefined) || (addNew["lname"]==="" || addNew["lname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["optradio"]==="" || addNew["optradio"]===undefined)){
             return this.setState({message:"Field is empty"});
         }
-        const data=addNew;
+        const formData = new FormData();
+        formData.append('pic',this.state.file);
+        // const config = {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // };
+        // const data=addNew;
+        formData.append('fname', addNew["fname"]);
+        formData.append('lname', addNew["lname"])
+        formData.append('username', addNew["username"])
+        formData.append('password', addNew["password"])
+        formData.append('phone', addNew["phone"])
+        formData.append('optradio', addNew["optradio"])
+
         this.setState({addNew:{}})
-        Axios.post('//localhost:3000/signUp', formData, config, data)
+        Axios.post('//localhost:3000/signUp',  formData)
         .then(response=>{
             if (response.data.success){
-                // window.location = '/panel/register';
+                window.location = '/panel/login';
                 this.setState({message: response.data.msg })
             }else {
                 this.setState({message: response.data.msg})

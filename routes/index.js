@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const path=require('path');
+const multer = require("multer");
 const User = require('../models/user');
 const auth = require('../tools/authentication.js');
 const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
 const user = require('./api/user');
-
 const passport = require('passport');
 const mongoose = require('mongoose');
 // mongoose.connect("mongodb://localhost/FinalProject2", {useCreateIndex: true, useNewUrlParser: true });
@@ -15,6 +15,20 @@ var db = mongoose.connect('mongodb://localhost:27017/FinalProject2', {useCreateI
     if(err){ console.log('Failed to connect to ' + db); }  
     else{ console.log('Connected to ' + db); } 
 });
+
+
+
+const storage = multer.diskStorage({
+  destination: "./public/uploads/",
+  filename: function(req, file, cb){
+     cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000},
+}).single("pic");
 
 
 /* GET home page. */
@@ -53,19 +67,8 @@ router.post('/createAdmin', function (req, res) {
 })
 
 router.post('/signUp', (req, res)=>{
-  let result=req.body;
-  let user = new User({
-    firstname : result.fname,
-    lastname : result.lname,
-    username : result.username,
-    password : result.password,
-    phone : result.phone,
-    sex: result.optradio,
-    role: "user"
-   
-  })
-  
-  user.save((err, user)=>{
+  if (!req.body) return res.sendStatus(400)
+  upload(req, res,  (err) => {
     if (err) {
       console.log(err.message);
       return res.json({
@@ -73,13 +76,48 @@ router.post('/signUp', (req, res)=>{
         msg: "something wrong in user sign up."
       })
     }
-      res.json({
-      success: true,
-      msg: "You are successfully sign up.",
-      user
-    })
+    else{
+      if (req.file == undefined) {
+        return res.json({
+          success:false,
+          msg: "Please choose image."
+        })
+      }
+      else {
+        const  {fname, lname, username, password, phone, optradio}=req.body;
+
+        let user = new User({
+          firstname : fname,
+          lastname : lname,
+          username : username,
+          password : password,
+          phone : phone,
+          sex: optradio,
+          role: "user",
+          pic: "uploads/" + req.file.filename
+         
+        })
+
+        user.save((err, user)=>{
+          if (err) {
+            console.log(err.message);
+            return res.json({
+              success:false,
+              msg: "Something wrong in user sign up."
+            })
+          }
+            res.json({
+            success: true,
+            msg: "You are successfully sign up.",
+            user
+          })
+        })
+      }
+    }
   })
+
 })
+
 
 router.post('/signin', passport.authenticate('local-login'), (req, res) => {
   console.log(req.body);
