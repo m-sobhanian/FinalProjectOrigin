@@ -11,8 +11,12 @@ state = {
 }
 
 onChange= (event) =>{
-        const {name, value}=event.target;
+        const {name, value, type}=event.target;
         const {addNew}=this.state;
+        if(type==="file"){
+            console.log(event.target.files[0]);
+            addNew[name]=event.target.files[0];
+        }
         addNew[name]=value;
         this.setState({addNew})
     }
@@ -76,9 +80,9 @@ onChange= (event) =>{
                     </label>
                 </div>               
                 </div>
-                {/* <div className="mb-3">
-                <input className="inputFile float-right w-100" type="file" name="pic"></input>
-                </div> */}
+                <div className="mb-3">
+                <input className="inputFile float-right w-100" type="file" name="pic" onChange={this.onChange}></input>
+                </div>
                 <div>
                     <button className="btn border-0 btnRegister mt-4" type="submit">Sign Up</button>
                 </div>
