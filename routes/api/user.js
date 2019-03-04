@@ -3,26 +3,26 @@ var router = express.Router();
 const User = require('../../models/user');
 const Article = require('../../models/article');
 
-// router.post('/whoAmI', (req, res)=>{
-//     User.findById(req.user._id, (err, user)=>{
-//         if(err){
-//             return res.json({
-//                 success: false,
-//                 msg: "something wrong in get user info\n" + err.message
-//             })
-//         }
-//         res.json({
-//             success: true,
-//             user
-//         })
-//     })
-// })
+router.post('/whoAmI', (req, res)=>{
+    User.findById(req.user._id, (err, user)=>{
+        if(err){
+            return res.json({
+                success: false,
+                msg: "Something wrong in get user info\n" + err.message
+            })
+        }
+        res.json({
+            success: true,
+            user
+        })
+    })
+})
 
 router.post('/newArticle', (req,res) => {
     if (!req.body.nameArticle || !req.body.abstract || !req.body.textArticle || !req.body.dateArticle) {
         return res.json({
           success: false,
-          msg: "empty filed"
+          msg: "Empty filed"
         })
       }
     const RESULT=req.body;
@@ -40,7 +40,7 @@ router.post('/newArticle', (req,res) => {
       console.log(err.message);
       return res.json({
         success:false,
-        msg: "something wrong in save article."
+        msg: "Something wrong in save article."
       })
     }
       res.json({
@@ -57,10 +57,10 @@ router.post('/viewMyArticles',(req, res) => {
             console.log(err.message);
             return res.json({
               success:false,
-              msg: "something wrong in find articles."
+              msg: "Something wrong in find articles."
             })
         }
-        console.log(articles)
+        // console.log(articles)
 
         res.json({
             success: true,
@@ -69,5 +69,32 @@ router.post('/viewMyArticles',(req, res) => {
     })
     .populate('author');
 })
+
+
+router.post('/editProfile', (req,res) => {
+  if (!req.body.firstname || !req.body.lastname || !req.body.username || !req.body.password || !req.body.phone || !req.body.sex) {
+    return res.json({
+        success: false,
+        msg: "Empty filed"
+      })
+    }
+  const RESULT=req.body;
+User.updateOne({_id:req.user._id}, {firstname : RESULT.firstname, lastname : RESULT.lastname, username : RESULT.username,  password : RESULT.password, phone : RESULT.phone, sex: RESULT.sex, role: RESULT.role}, (err, user) => {
+  if (err) {
+    console.log(err.message);
+    return res.json({
+      success:false,
+      msg: "Something wrong in save article."
+    })
+  }
+  res.json({
+    success: true,
+    msg: "Profile successfully edited.",
+    RESULT
+  })
+})
+
+})
+
 
 module.exports = router;

@@ -1,14 +1,31 @@
 import React,{Component} from 'react';
 import { Row, Col, Nav, Tab, Button, Jumbotron } from 'react-bootstrap';
-import {NewArticle} from '../components'
-import {ViewMyArticles} from '../components'
+import {NewArticle, ViewMyArticles, EditProfile} from '../components'
+import Axios from 'axios';
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state={
-      articleArray : []
+      articleArray : [],
+      message:'',
+      user:{},
+      isRequest:true
     }
+
+    const data={};
+    Axios.post('//localhost:3000/api/user/whoAmI',data)
+    .then(response=>{
+        if (response.data.success){
+          let {user}=this.state;
+          user=response.data.user;
+          // console.log("aaaaa " + user["firstname"]);
+          this.setState({user, isRequest: false});
+        }else {
+          this.setState({message: response.data.msg, isRequest: false })
+            
+        }
+    });
   }
   
     logout=()=>{
@@ -22,15 +39,25 @@ class Dashboard extends Component {
       articleArray.push(article);
       this.setState({articleArray});
     }
+
+    editPro = (u) => {
+      let {user}=this.state;
+      user=u;
+      this.setState({user});
+    }
     render() {
-        // console.log("Dashboard")
+        console.log("Dashboarddddddd")
+        const {user, isRequest}=this.state;
+      if(isRequest){
+        return <p>Waiting ...</p>
+      }
         return <Jumbotron>
           <Row className="justify-content-md-center">
           <Col md={2}>
             <Button variant="outline-primary" onClick={this.logout}>Logout</Button>
             </Col>
             <Col md={10}>
-            <h1>Welcome User</h1>
+            <h1>Welcome {user["firstname"] + " " + user["lastname"]}</h1>
             </Col>
             </Row>
          
@@ -46,6 +73,9 @@ class Dashboard extends Component {
         <Nav.Item>
           <Nav.Link eventKey="second">View My Articles</Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="three">Edit Profile</Nav.Link>
+        </Nav.Item>
       </Nav>
     </Col>
     <Col sm={9}>
@@ -55,6 +85,9 @@ class Dashboard extends Component {
         </Tab.Pane>
         <Tab.Pane eventKey="second">
         <ViewMyArticles articleArray={this.state.articleArray}/>
+        </Tab.Pane>
+        <Tab.Pane eventKey="three">
+        <EditProfile user={user} edit={this.editPro}/>
         </Tab.Pane>
       </Tab.Content>
     </Col>
