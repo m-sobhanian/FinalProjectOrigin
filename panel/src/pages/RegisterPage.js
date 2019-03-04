@@ -24,13 +24,20 @@ onChange= (event) =>{
     onSubmit = (event) => {
         event.preventDefault();
         const {addNew}=this.state;
+        const formData = new FormData();
+        formData.append('pic',addNew["pic"]);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
 
-        if((addNew["fname"]===""||addNew["fname"]===undefined) || (addNew["lname"]==="" || addNew["lname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["optradio"]==="" || addNew["optradio"]===undefined)){
+        if((addNew["fname"]===""||addNew["fname"]===undefined) || (addNew["lname"]==="" || addNew["lname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["optradio"]==="" || addNew["optradio"]===undefined) || (addNew["pic"]==="" || addNew["pic"]===undefined)){
             return this.setState({message:"Field is empty"});
         }
         const data=addNew;
         this.setState({addNew:{}})
-        Axios.post('//localhost:3000/signUp',data)
+        Axios.post('//localhost:3000/signUp', formData, config, data)
         .then(response=>{
             if (response.data.success){
                 // window.location = '/panel/register';
