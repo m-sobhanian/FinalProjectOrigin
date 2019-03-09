@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Form, Button} from 'react-bootstrap';
+import { Form, Button, Row, Col} from 'react-bootstrap';
 import Axios from 'axios';
 
 
@@ -73,15 +73,17 @@ class EditProfile extends Component {
 
            <Form.Group controlId="formBasicPassword">
            <div key={`inline-${"radio"}`} className="mb-3">
-             {/* <Form.Label>Sex</Form.Label> */}
              <Form.Check inline  type="radio" aria-label="radio 1" label="Female" name="sex" value="female" checked={addNew["sex"]==="female" ? true : false} id={`inline-${"radio"}-1`} onChange={this.onChange}/>
              <Form.Check inline  type="radio" aria-label="radio 1" label="Male" name="sex" value="Male" checked={addNew["sex"]==="male" ? true : false} id={`inline-${"radio"}-1`} onChange={this.onChange}/>
              </div>
            </Form.Group>
-          
-           <Button variant="primary" type="submit">
+           <Row className="justify-content-sm-center">
+            <Col sm={2}>
+           <Button className="colorBtnDark btnClass" type="submit">
              Submit
            </Button>
+           </Col>
+           </Row>
          </Form>
                  </div>
                   

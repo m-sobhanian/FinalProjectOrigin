@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
 import {Article} from '../components';
-
+import {Row} from 'react-bootstrap';
 
 class ViewMyArticles extends Component {
     constructor(props) {
@@ -25,8 +25,8 @@ class ViewMyArticles extends Component {
     render () {
         // console.log("ViewMyArticle")
         const {articles}=this.state;
-        const {articleArray}=this.props;
-        let articleAdded=articleArray;
+        const {articleNew, user}=this.props;
+        let articleAdded=articleNew;
        
             if(articleAdded.length!==0){
                 articleAdded.forEach(element => {
@@ -34,14 +34,14 @@ class ViewMyArticles extends Component {
                 });
                 articleAdded.length=0;
             }
-            return <div>
+            return <Row>
                    
                 {
                    articles.map(article=> {
-                       return <Article article={article}/>
+                       return <Article article={article} user={user}/>
                    })
             }
-            </div>
+            </Row>
     }
 }
 

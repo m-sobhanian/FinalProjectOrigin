@@ -102,7 +102,7 @@ onChange= (event) =>{
   </Form.Group>
   <Row className="justify-content-sm-center">
     <Col sm={2}>
-  <Button className="colorBtnDark btnClass" variant="primary" type="submit">
+  <Button className="colorBtnDark btnClass" type="submit">
     Submit
   </Button>
     </Col>

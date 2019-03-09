@@ -121,3 +121,15 @@ input {
         background-color:rgb(99, 235, 219) !important;
         color: #00796b; 
     }   
+
+    .imgArticle {
+        height:300px;
+    }
+
+    .mbCard {
+        margin-bottom: 20px;
+    }
+
+    .mtContent {
+        margin-top: 30px;
+    }

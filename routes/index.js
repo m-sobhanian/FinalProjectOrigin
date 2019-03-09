@@ -20,7 +20,7 @@ var db = mongoose.connect('mongodb://localhost:27017/FinalProject2', {useCreateI
 
 
 const storage = multer.diskStorage({
-  destination: "./public/uploads/",
+  destination: "./public/uploads/avatar",
   filename: function(req, file, cb){
      cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
   }
@@ -109,7 +109,7 @@ router.post('/signUp', (req, res)=>{
           phone : phone,
           sex: optradio,
           role: "user",
-          pic: "uploads/" + req.file.filename
+          pic: req.file.filename
          
         })
 

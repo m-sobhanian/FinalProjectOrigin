@@ -1,13 +1,13 @@
 import React,{Component} from 'react';
-import { Row, Col, Nav, Tab, Image} from 'react-bootstrap';
-import {NewArticle, ViewMyArticles, EditProfile} from '../components'
+import { Row, Col, Nav, Tab, Image, Button} from 'react-bootstrap';
+import {NewArticle, ViewMyArticles, EditProfile, EditAvatar} from '../components'
 import Axios from 'axios';
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state={
-      articleArray : [],
+      articleNew : [],
       message:'',
       user:{},
       isRequest:true
@@ -34,10 +34,10 @@ class Dashboard extends Component {
     }
     
     addArticle = (article) => {
-      let {articleArray}=this.state;
-      articleArray=[];
-      articleArray.push(article);
-      this.setState({articleArray});
+      let {articleNew}=this.state;
+      articleNew=[];
+      articleNew.push(article);
+      this.setState({articleNew});
     }
 
     editPro = (u) => {
@@ -47,7 +47,7 @@ class Dashboard extends Component {
     }
     render() {
         console.log("Dashboarddddddd")
-        const {user, isRequest}=this.state;
+        const {user, isRequest, articleNew}=this.state;
         console.log(user["pic"])
       if(isRequest){
         return <p>Waiting ...</p>
@@ -55,35 +55,49 @@ class Dashboard extends Component {
         return  <Tab.Container id="left-tabs-example" defaultActiveKey="first">
         <Row>
           <Col xs={6} sm={3} className="sidebarLeft">
-          <Image className="avatarPro" src={"../../../" + user["pic"]} roundedCircle/>
+          <Image className="avatarPro" src={"../../../uploads/avatar/" + user["pic"]} roundedCircle/>
           <p className="text-white"> {user["firstname"] + " " + user["lastname"]}</p>
             <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="first">Create Article</Nav.Link>
+            <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="first">Edit Avatar</Nav.Link>
+              </Nav.Item>
+            <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="second">Edit Profile</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="second">View My Articles</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="third">Create Article</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="three">Edit Profile</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="fourth">View My Articles</Nav.Link>
               </Nav.Item>
+             
             </Nav>
+            
+            <Button className="colorBtnDark btnClass mt-4" onClick={this.logout}>
+                Logout
+            </Button>
+      
           </Col>
-          <Col xs={6} sm={9} className="contentRight">
+          <Col xs={6} sm={9} className="contentRight mtContent">
             <Tab.Content>
-              <Tab.Pane eventKey="first">
-              <NewArticle add={this.addArticle}/>
+            <Tab.Pane eventKey="first">
+              <EditAvatar />
               </Tab.Pane>
-              <Tab.Pane eventKey="second">
-              <ViewMyArticles articleArray={this.state.articleArray}/>
-              </Tab.Pane>
-              <Tab.Pane eventKey="three">
+            <Tab.Pane eventKey="second">
               <EditProfile user={user} edit={this.editPro}/>
               </Tab.Pane>
+              <Tab.Pane eventKey="third">
+              <NewArticle add={this.addArticle}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="fourth">
+              <ViewMyArticles articleNew={articleNew} user={user}/>
+              </Tab.Pane>
+             
             </Tab.Content>
           </Col>
         </Row>
       </Tab.Container>
+     
     }
 }
 

@@ -6,7 +6,7 @@ const multer = require("multer");
 const path=require('path');
 
 const storage = multer.diskStorage({
-  destination: "./public/uploads/",
+  destination: "./public/uploads/article",
   filename: function(req, file, cb){
      cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
   }
@@ -65,7 +65,7 @@ router.post('/newArticle', (req,res) => {
               longTxt : RESULT.textArticle,
               date : RESULT.dateArticle,
               link: RESULT.nameArticle,
-              pic: "uploads/" + req.file.filename
+              pic:  req.file.filename
          
         })
     
