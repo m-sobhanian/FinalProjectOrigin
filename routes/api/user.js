@@ -2,6 +2,20 @@ var express = require('express');
 var router = express.Router();
 const User = require('../../models/user');
 const Article = require('../../models/article');
+const multer = require("multer");
+const path=require('path');
+
+const storage = multer.diskStorage({
+  destination: "./public/uploads/",
+  filename: function(req, file, cb){
+     cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1000000},
+}).single("pic");
 
 router.post('/whoAmI', (req, res)=>{
     User.findById(req.user._id, (err, user)=>{
@@ -19,36 +33,86 @@ router.post('/whoAmI', (req, res)=>{
 })
 
 router.post('/newArticle', (req,res) => {
-    if (!req.body.nameArticle || !req.body.abstract || !req.body.textArticle || !req.body.dateArticle) {
+    if (!req.body) {
         return res.json({
           success: false,
           msg: "Empty filed"
         })
       }
-    const RESULT=req.body;
-    const ARTICLE = new Article({
-        name : RESULT.nameArticle,
-        author: req.user._id,
-        shortTxt : RESULT.abstract,
-        longTxt : RESULT.textArticle,
-        date : RESULT.dateArticle,
-        link: RESULT.nameArticle
-   
-  })
-  ARTICLE.save((err, article)=>{
-    if (err) {
-      console.log(err.message);
-      return res.json({
-        success:false,
-        msg: "Something wrong in save article."
+
+
+      upload(req, res,  (err) => {
+        if (err) {
+          console.log(err.message);
+          return res.json({
+            success:false,
+            msg: "something wrong in user sign up."
+          })
+        }
+        else{
+          if (req.file == undefined) {
+            return res.json({
+              success:false,
+              msg: "Please choose image."
+            })
+          }
+          else {
+            const RESULT=req.body;
+            const ARTICLE = new Article({
+              name : RESULT.nameArticle,
+              author: req.user._id,
+              shortTxt : RESULT.abstract,
+              longTxt : RESULT.textArticle,
+              date : RESULT.dateArticle,
+              link: RESULT.nameArticle,
+              pic: "uploads/" + req.file.filename
+         
+        })
+    
+        ARTICLE.save((err, article)=>{
+              if (err) {
+                console.log(err.message);
+                return res.json({
+                  success:false,
+                  msg: "Something wrong in save article."
+                })
+              }
+                res.json({
+                success: true,
+                msg: "Article successfully saved.",
+                article
+              })
+            })
+          }
+        }
       })
-    }
-      res.json({
-      success: true,
-      msg: "Article successfully saved.",
-      article
-    })
-  })
+
+
+
+  //   const RESULT=req.body;
+  //   const ARTICLE = new Article({
+  //       name : RESULT.nameArticle,
+  //       author: req.user._id,
+  //       shortTxt : RESULT.abstract,
+  //       longTxt : RESULT.textArticle,
+  //       date : RESULT.dateArticle,
+  //       link: RESULT.nameArticle
+   
+  // })
+  // ARTICLE.save((err, article)=>{
+  //   if (err) {
+  //     console.log(err.message);
+  //     return res.json({
+  //       success:false,
+  //       msg: "Something wrong in save article."
+  //     })
+  //   }
+  //     res.json({
+  //     success: true,
+  //     msg: "Article successfully saved.",
+  //     article
+  //   })
+  // })
 })
 
 router.post('/viewMyArticles',(req, res) => {

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Form, Button} from 'react-bootstrap';
+import { Form, Button, Row, Col} from 'react-bootstrap';
 import Axios from 'axios';
 
 
@@ -27,18 +27,33 @@ class NewArticle extends Component {
   // }
   state = {
     message:'',
-    addNewArticle: {}
+    addNewArticle: {},
+    file: null
 }
+
+onChange= (event) =>{
+  this.setState({file:event.target.files[0]});
+ 
+}
+
   onSubmit =(event) => {
     event.preventDefault();
-    const data = {
-      nameArticle : event.target["nameArticle"].value,
-      abstract : event.target["abstract"].value,
-      textArticle : event.target["textArticle"].value,
-      dateArticle : event.target["dateArticle"].value,
-      FCM: '1'
-  }
-  Axios.post('//localhost:3000/api/user/newArticle',data)
+  //   const data = {
+  //     nameArticle : event.target["nameArticle"].value,
+  //     abstract : event.target["abstract"].value,
+  //     textArticle : event.target["textArticle"].value,
+  //     dateArticle : event.target["dateArticle"].value,
+  //     FCM: '1'
+  // }
+  const formData = new FormData();
+  formData.append('pic',this.state.file);
+
+  formData.append('nameArticle', event.target["nameArticle"].value);
+  formData.append('abstract', event.target["abstract"].value);
+  formData.append('textArticle', event.target["textArticle"].value);
+  formData.append('dateArticle', event.target["dateArticle"].value);
+
+  Axios.post('//localhost:3000/api/user/newArticle',formData)
         .then(response=>{
             if (response.data.success){
                 this.setState({message: response.data.msg });
@@ -58,12 +73,13 @@ class NewArticle extends Component {
     
       render() {
         // console.log("NewArticle")
-        return (<div>
+        return (<Row>
+          <Col sm={6} xs={12}>
  <Form onSubmit={this.onSubmit}>
           <p style={{color:"red"}}>{this.state.message}</p>
   <Form.Group controlId="formBasicEmail">
     <Form.Label>Name Of Article</Form.Label>
-    <Form.Control type="string" placeholder="Name Of Article" name="nameArticle"/>
+    <Form.Control type="string" name="nameArticle"/>
   </Form.Group>
 
   <Form.Group controlId="formBasicPassword">
@@ -80,12 +96,20 @@ class NewArticle extends Component {
     <Form.Label>Date</Form.Label>
     <Form.Control type="date" name="dateArticle"/>
   </Form.Group>
- 
-  <Button variant="primary" type="submit">
+
+  <Form.Group controlId="formBasicPassword">
+    <Form.Control type="file" name="pic" onChange={this.onChange}/>
+  </Form.Group>
+  <Row className="justify-content-sm-center">
+    <Col sm={2}>
+  <Button className="colorBtnDark btnClass" variant="primary" type="submit">
     Submit
   </Button>
+    </Col>
+  </Row>
 </Form>
-        </div>
+</Col>
+</Row>
          
         );
       }

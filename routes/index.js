@@ -3,6 +3,7 @@ var router = express.Router();
 const path=require('path');
 const multer = require("multer");
 const User = require('../models/user');
+const Article = require('../models/article');
 const auth = require('../tools/authentication.js');
 const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
@@ -32,7 +33,21 @@ const upload = multer({
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
+  Article.find({}, function (err, articles) {
+    if (err){
+      console.log("errrrrr")
+      res.send(err);
+    }
+    console.log("Articleeeees")
+    console.log(articles)
+    res.render('index.ejs', {
+        articles
+    })
+
+})
+.populate('author');
+
   res.render('index', { title: 'Express' });
 });
 

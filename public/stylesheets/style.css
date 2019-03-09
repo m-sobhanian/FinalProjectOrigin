@@ -1,8 +1,16 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: black !important;
+  height:100%;
 }
 
-a {
-  color: #00B7FF;
+ ul li a {
+  color: white !important;
 }
+
+.navGuestPage {
+  background-color: #00BFA5 !important;
+}
+
+

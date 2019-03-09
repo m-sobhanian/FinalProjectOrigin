@@ -16,9 +16,9 @@
 }
 
 input {
-    border: none !important;
+    /* border: none !important;
     border-bottom: 2px solid teal !important;
-    border-radius: none;
+    border-radius: none; */
 }
 
 .inputFile {
@@ -74,3 +74,50 @@ input {
         display: none;
     }
    }
+
+   .sidebarLeft {
+       position: fixed;
+       background-color: #000000;
+       height: 100vh;
+       top: 0px;
+       left: 0px;
+       justify-content: center;
+       align-items: center;
+   }
+
+   .contentRight {
+        position: absolute;
+        right: 0;
+   }
+
+   .avatarPro {
+       width:100px;
+       height:100px;
+       margin-top:30px; 
+   }
+
+    .colorBtnDark {  
+        background-color: #00796b  !important;
+    }
+
+    .colorTabLight {
+        color: white;
+    }
+    .colorTabLight:hover {
+        color: white;
+    }
+
+    .colorTabLight:focus {
+        background-color: rgb(99, 235, 219) !important;
+        color: #00796b !important; 
+    }
+
+
+    .btnClass {
+        border: none;
+    }
+
+    .btnClass:hover {
+        background-color:rgb(99, 235, 219) !important;
+        color: #00796b; 
+    }   

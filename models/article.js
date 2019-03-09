@@ -25,10 +25,9 @@ const article = new Schema({
     link:{
         type: String
     },
-    // pic:{
-    //     type: String,
-    //     required: true 
-    // } 
+    pic:{
+        type: String
+    } 
 
 })
 

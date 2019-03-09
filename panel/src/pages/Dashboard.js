@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Row, Col, Nav, Tab, Button, Jumbotron } from 'react-bootstrap';
+import { Row, Col, Nav, Tab, Image} from 'react-bootstrap';
 import {NewArticle, ViewMyArticles, EditProfile} from '../components'
 import Axios from 'axios';
 
@@ -52,50 +52,38 @@ class Dashboard extends Component {
       if(isRequest){
         return <p>Waiting ...</p>
       }
-        return <Jumbotron>
-          <Row className="justify-content-md-center">
-          <Col md={2}>
-            <Button variant="outline-primary" onClick={this.logout}>Logout</Button>
-            </Col>
-            <Col md={10}>
-            <h1>Welcome {user["firstname"] + " " + user["lastname"]}</h1>
-            <img src={"../../../" + user["pic"]}/>
-            </Col>
-            </Row>
-         
-         <br></br>
-           
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-  <Row>
-    <Col sm={3}>
-      <Nav variant="pills" className="flex-column">
-        <Nav.Item>
-          <Nav.Link eventKey="first">Create Article</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="second">View My Articles</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="three">Edit Profile</Nav.Link>
-        </Nav.Item>
-      </Nav>
-    </Col>
-    <Col sm={9}>
-      <Tab.Content>
-        <Tab.Pane eventKey="first">
-        <NewArticle add={this.addArticle}/>
-        </Tab.Pane>
-        <Tab.Pane eventKey="second">
-        <ViewMyArticles articleArray={this.state.articleArray}/>
-        </Tab.Pane>
-        <Tab.Pane eventKey="three">
-        <EditProfile user={user} edit={this.editPro}/>
-        </Tab.Pane>
-      </Tab.Content>
-    </Col>
-  </Row>
-</Tab.Container>
-            </Jumbotron>
+        return  <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+        <Row>
+          <Col xs={6} sm={3} className="sidebarLeft">
+          <Image className="avatarPro" src={"../../../" + user["pic"]} roundedCircle/>
+          <p className="text-white"> {user["firstname"] + " " + user["lastname"]}</p>
+            <Nav variant="pills" className="flex-column">
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="first">Create Article</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="second">View My Articles</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="three">Edit Profile</Nav.Link>
+              </Nav.Item>
+            </Nav>
+          </Col>
+          <Col xs={6} sm={9} className="contentRight">
+            <Tab.Content>
+              <Tab.Pane eventKey="first">
+              <NewArticle add={this.addArticle}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="second">
+              <ViewMyArticles articleArray={this.state.articleArray}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="three">
+              <EditProfile user={user} edit={this.editPro}/>
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
     }
 }
 
