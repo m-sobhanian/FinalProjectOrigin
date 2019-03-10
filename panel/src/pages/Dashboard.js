@@ -45,10 +45,14 @@ class Dashboard extends Component {
       user=u;
       this.setState({user});
     }
+
+    editAvatar =(data)=> {
+      const {user}=this.state;
+      user["pic"]=data;
+      this.setState({user});
+    }
     render() {
-        console.log("Dashboarddddddd")
         const {user, isRequest, articleNew}=this.state;
-        console.log(user["pic"])
       if(isRequest){
         return <p>Waiting ...</p>
       }
@@ -81,7 +85,7 @@ class Dashboard extends Component {
           <Col xs={6} sm={9} className="contentRight mtContent">
             <Tab.Content>
             <Tab.Pane eventKey="first">
-              <EditAvatar />
+              <EditAvatar edit={this.editAvatar} pic={user["pic"]}/>
               </Tab.Pane>
             <Tab.Pane eventKey="second">
               <EditProfile user={user} edit={this.editPro}/>

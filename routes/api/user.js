@@ -4,6 +4,7 @@ const User = require('../../models/user');
 const Article = require('../../models/article');
 const multer = require("multer");
 const path=require('path');
+const fs = require('fs')
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/article",
@@ -14,6 +15,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
+  limits:{fileSize: 1000000},
+}).single("pic");
+
+
+const storageEditAvatar = multer.diskStorage({
+  destination: "./public/uploads/avatar",
+  filename: function(req, file, cb){
+     cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const uploadEditAvatar = multer({
+  storage: storageEditAvatar,
   limits:{fileSize: 1000000},
 }).single("pic");
 
@@ -124,7 +138,6 @@ router.post('/viewMyArticles',(req, res) => {
               msg: "Something wrong in find articles."
             })
         }
-        // console.log(articles)
 
         res.json({
             success: true,
@@ -160,5 +173,63 @@ User.updateOne({_id:req.user._id}, {firstname : RESULT.firstname, lastname : RES
 
 })
 
+router.post('/editAvatar', (req,res)=> {
+  uploadEditAvatar(req, res,  (err) => {
+    if (err) {
+      console.log(err.message);
+      return res.json({
+        success:false,
+        msg: "something wrong in edit avatar."
+      })
+    }
+    else{
+      if (req.file == undefined) {
+        return res.json({
+          success:false,
+          msg: "Please choose image."
+        })
+      }
+      else {
+    const PIC =  req.file.filename;
+    User.updateOne({_id:req.user._id},{pic:PIC}, (err, user)=> {
+      if (err) {
+        console.log(err.message);
+        return res.json({
+          success:false,
+          msg: "Something wrong in save avatar."
+        })
+      }
+      const img=req.body.pic;
+      const path = 'public/uploads/avatar/' + img; 
+      fs.unlink(path, (err) => {
+        if (err) {
+          console.log(err)
+          return
+        }
+      
+        //file removed
+      })
+      res.json({
+        success: true,
+        msg: "Avatar successfully edited.",
+        PIC
+      })
+    })
+      }
+    }
+  })
+})
+
+router.post('/deleteArticle', (req,res)=> {
+if (!req.body) {
+  return res.json({
+    success: false,
+    msg: "Empty filed"
+  })
+}
+// const da=req.body;
+console.log("iddddd " + req.body.idArticle);
+
+})
 
 module.exports = router;

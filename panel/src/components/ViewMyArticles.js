@@ -38,7 +38,7 @@ class ViewMyArticles extends Component {
                    
                 {
                    articles.map(article=> {
-                       return <Article article={article} user={user}/>
+                       return <Article article={article} user={user} deleteArticle={this.deleteArticle}/>
                    })
             }
             </Row>
