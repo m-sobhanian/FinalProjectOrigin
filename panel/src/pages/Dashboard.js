@@ -19,7 +19,6 @@ class Dashboard extends Component {
         if (response.data.success){
           let {user}=this.state;
           user=response.data.user;
-          // console.log("aaaaa " + user["firstname"]);
           this.setState({user, isRequest: false});
         }else {
           this.setState({message: response.data.msg, isRequest: false })
@@ -30,7 +29,7 @@ class Dashboard extends Component {
   
     logout=()=>{
         localStorage.removeItem('loginData');
-        window.location="/panel/login";
+        window.location="/";
     }
     
     addArticle = (article) => {

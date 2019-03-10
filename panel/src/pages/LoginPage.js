@@ -9,8 +9,6 @@ state = {
     message:''
 
 }
-
-
     onSubmit = (event) => {
         event.preventDefault();
 
@@ -23,9 +21,7 @@ state = {
         Axios.post('//localhost:3000/signin',data)
         .then(response=>{
             if (response.data.success){
-                
                 localStorage.setItem('loginData',JSON.stringify(data));
-                this.setState({message: response.data.msg })
                 window.location = '/panel/dashboard';
             }else {
               
@@ -49,20 +45,15 @@ state = {
             <div className="col-12 col-sm-8 py-4 paddingX">
             <h2 className="pb-4">Sign In</h2>
             <p style={{color:"red"}}>{this.state.message}</p>
-            <form onSubmit={this.onSubmit}>
-                <div class="form-group">
-               
-                <div className="mb-3">
-                <input class="w-100" type= "email" name="username" placeholder="Email" value={this.state.username} onChange={this.onChange}></input>
+            <form onSubmit={this.onSubmit} className="mb-3">
+                <div className="form-group">
+                    <input className="form-control" type= "email" name="username" placeholder="Email" value={this.state.username} onChange={this.onChange}></input>
                 </div>
-                <div className="mb-3">
-                <input class="w-100" type= "password" name="password" placeholder="Password"></input>
+                <div className="form-group">
+                    <input className="form-control" type= "password" name="password" placeholder="Password"></input>
                 </div>
-               
-               
                 <div>
                     <button className="btn border-0 btnRegister mt-4" type="submit">Sign In</button>
-                </div>
                 </div>
             </form>
                
