@@ -4,18 +4,21 @@ import Axios from 'axios';
 
 
 class Article extends Component {
+  state={
+    message:''
+  }
 
   delete=() => {
-    const {article}= this.props;
-    // const d=article._id;
+    const {article,deleteArticle}= this.props;
     const data={
-      idArticle: article._id
+      idArticle: article._id,
+      pic:article.pic
     };
-    console.log("idd " + data)
     Axios.post('//localhost:3000/api/user/deleteArticle',data)
     .then(response=>{
         if (response.data.success){
-            this.setState({articles:response.data.articles});
+            this.setState({message:response.data.msg});
+            deleteArticle(article._id);
         }else {
             this.setState({message: response.data.msg })
             
@@ -26,6 +29,7 @@ class Article extends Component {
     render() {
         const {article, user}= this.props;
         return <Col sm={6} xs={12}>
+                <p style={{color:"red"}}>{this.state.message}</p>
         <Card className="mbCard">
         <Card.Img className="imgArticle" variant="top" src={"../../../uploads/article/" + article.pic}/>
         <Card.Body>

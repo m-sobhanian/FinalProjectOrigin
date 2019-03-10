@@ -227,8 +227,32 @@ if (!req.body) {
     msg: "Empty filed"
   })
 }
-// const da=req.body;
-console.log("iddddd " + req.body.idArticle);
+
+const ID_ARTICLE=req.body.idArticle
+Article.deleteOne({_id:ID_ARTICLE}, (err) => {
+  if (err) {
+    console.log(err.message);
+    return res.json({
+      success:false,
+      msg: "Something wrong in delete article."
+    })
+  }
+  const img=req.body.pic;
+  const path = 'public/uploads/article/' + img; 
+  fs.unlink(path, (err) => {
+    if (err) {
+      console.log(err)
+      return
+    }
+  
+    //file removed
+  })
+  res.json({
+    success: true,
+    msg: "Article successfully deleted.",
+    
+  })
+})
 
 })
 

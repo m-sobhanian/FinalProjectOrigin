@@ -21,7 +21,13 @@ class ViewMyArticles extends Component {
             }
         });
     }
-   
+    deleteArticle = (idArticle) => {
+        let {articles}= this.state;
+        articles=articles.filter(value=>{
+            return value._id!==idArticle
+        })
+        this.setState({articles});
+    }
     render () {
         // console.log("ViewMyArticle")
         const {articles}=this.state;
