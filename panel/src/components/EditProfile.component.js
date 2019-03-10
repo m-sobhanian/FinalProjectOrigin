@@ -16,20 +16,17 @@ class EditProfile extends Component {
     onChange= (event) =>{
         const {name, value}=event.target;
         const {addNew}=this.state;
-        addNew[name]=value;
-        this.setState({addNew})
+        this.setState({addNew:{...addNew, [name]:value}})
        
     }
     
     onSubmit = (event) => {
         event.preventDefault();
         const {addNew}=this.state;
-        console.log(addNew)
         if((addNew["firstname"]===""||addNew["firstname"]===undefined) || (addNew["lastname"]==="" || addNew["lastname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["sex"]==="" || addNew["sex"]===undefined)){
             return this.setState({message:"Field is empty"});
         }
         const data=addNew;
-        this.setState({addNew:{}})
         Axios.post('//localhost:3000/api/user/editProfile',data)
         .then(response=>{
             if (response.data.success){

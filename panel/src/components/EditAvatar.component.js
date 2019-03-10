@@ -34,20 +34,20 @@ class EditAvatar extends Component {
 
     render () {
       return <Row>
-      <Col sm={6} xs={12}>
-      <Form onSubmit={this.onSubmit}>
-      <p style={{color:"red"}}>{this.state.message}</p>
-        <Form.Group controlId="formBasicPassword">
-          <Form.Control type="file" name="pic" onChange={this.onChange}/>
-        </Form.Group>
-        <Col sm={2}>
-        <Button className="colorBtnDark btnClass" type="submit">
-         Submit
-        </Button>
-        </Col>
-      </Form>
-      </Col>
-      </Row>
+                <Col sm={6} xs={12}>
+                <Form onSubmit={this.onSubmit}>
+                <p style={{color:"red"}}>{this.state.message}</p>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Control type="file" name="pic" onChange={this.onChange}/>
+                  </Form.Group>
+                  <Col sm={2}>
+                  <Button className="colorBtnDark btnClass" type="submit">
+                    Submit
+                  </Button>
+                  </Col>
+                </Form>
+                </Col>
+              </Row>
        
     }
 }

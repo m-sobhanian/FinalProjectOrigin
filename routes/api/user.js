@@ -103,31 +103,7 @@ router.post('/newArticle', (req,res) => {
 
 
 
-  //   const RESULT=req.body;
-  //   const ARTICLE = new Article({
-  //       name : RESULT.nameArticle,
-  //       author: req.user._id,
-  //       shortTxt : RESULT.abstract,
-  //       longTxt : RESULT.textArticle,
-  //       date : RESULT.dateArticle,
-  //       link: RESULT.nameArticle
-   
-  // })
-  // ARTICLE.save((err, article)=>{
-  //   if (err) {
-  //     console.log(err.message);
-  //     return res.json({
-  //       success:false,
-  //       msg: "Something wrong in save article."
-  //     })
-  //   }
-  //     res.json({
-  //     success: true,
-  //     msg: "Article successfully saved.",
-  //     article
-  //   })
-  // })
-})
+ })
 
 router.post('/viewMyArticles',(req, res) => {
     Article.find({author: req.user._id}, function (err, articles) {
@@ -256,4 +232,63 @@ Article.deleteOne({_id:ID_ARTICLE}, (err) => {
 
 })
 
+router.post('/editArticle', (req,res)=> {
+  if (!req.body) {
+    return res.json({
+      success: false,
+      msg: "Empty filed"
+    })
+  }
+  upload(req, res,  (err) => {
+    if (err) {
+      console.log(err.message);
+      return res.json({
+        success:false,
+        msg: "something wrong in upload image."
+      })
+    }
+    else{
+      if (req.file == undefined) {
+        return res.json({
+          success:false,
+          msg: "Please choose image."
+        })
+      }
+      else {
+        const RESULT=req.body;
+        Article.updateOne({_id:RESULT._id}, {name : RESULT.name, author: req.user._id, shortTxt : RESULT.shortTxt, longTxt : RESULT.longTxt, date : RESULT.date, link: RESULT.name, pic:  req.file.filename}, (err, article) => {
+          if (err) {
+            console.log(err.message);
+            return res.json({
+              success:false,
+              msg: "Something wrong in save article."
+            })
+          }
+          const img=req.body.prevPic;
+          const path = 'public/uploads/article/' + img; 
+          fs.unlink(path, (err) => {
+            if (err) {
+              console.log(err)
+              return
+            }
+          
+            //file removed
+          })
+          const PIC=req.file.filename;
+          res.json({
+            success: true,
+            msg: "Article successfully edited.",
+            RESULT,
+            PIC
+          })
+        })
+
+    
+      }
+    }
+  })
+
+})
 module.exports = router;
+
+

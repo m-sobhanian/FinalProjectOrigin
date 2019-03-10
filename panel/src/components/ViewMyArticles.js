@@ -28,6 +28,19 @@ class ViewMyArticles extends Component {
         })
         this.setState({articles});
     }
+
+    editArticle = (result) => {
+        let {articles}= this.state;
+        articles=articles.map(article=>{
+            if(article['_id']===result['_id']){
+               
+               return result;
+            }
+            return article;
+        })
+        this.setState({articles});
+    }
+
     render () {
         // console.log("ViewMyArticle")
         const {articles}=this.state;
@@ -44,7 +57,7 @@ class ViewMyArticles extends Component {
                    
                 {
                    articles.map(article=> {
-                       return <Article article={article} user={user} deleteArticle={this.deleteArticle}/>
+                       return <Article article={article} user={user} deleteArticle={this.deleteArticle} editArticle={this.editArticle}/>
                    })
             }
             </Row>
