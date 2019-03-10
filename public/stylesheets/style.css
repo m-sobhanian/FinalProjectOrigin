@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  padding-top: 55px;
   font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black !important;
   height:100%;
@@ -13,4 +13,7 @@ body {
   background-color: #00BFA5 !important;
 }
 
+.imgArticle {
+  height:300px;
+}
 

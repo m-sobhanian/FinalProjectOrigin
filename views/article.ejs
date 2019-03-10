@@ -29,26 +29,25 @@
       </div>  
     </nav>
     <div class="container-fluid">
-      <div class="row content mt-4">
-          <%articles.forEach(function(article){%>
-            <div class="col-xs-12 col-sm-12 col-md-4">
+      <div class="row content mt-4 justify-content-center">
+         
+            <div class="col-xs-12 col-sm-12 col-md-6">
                 <div class="card text-center">
-                    <img class="card-img-top imgArticle" src="./uploads/article/<%=article.pic%>" alt="Card image" style="width:100%"> 
+                    <img class="card-img-top imgArticle" src="<%=pic%>" alt="Card image" style="width:100%"> 
                    <div class="card-body">
-                     <h4 class="card-title"><%=article.author.firstname + " " + article.author.lastname%></h4>
-                     <h2><%=article.name%></h2>
-                     <p class="card-text"><%=article.shortTxt%></p>
-                     <p class="card-text">Date: <%=article.date%></p>
-                     <div class="card-footer">
-                       <a href="article/<%=article.link%>" class="button alt" >Read More</a> 
-                     </div>
+                     <h4 class="card-title"><%=author%></h4>
+                     <h2><%=name%></h2>
+                     <p class="card-text"><%=shortTxt%></p>
+                     <p class="card-text"><%=longTxt%></p>
+                     <p class="card-text">Date: <%=date%></p>
+                    
      
                      
                    </div>
                  </div>
             </div>
             
-            <%})%>
+           
       </div>
      
     </div> 

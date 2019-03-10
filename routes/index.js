@@ -37,19 +37,41 @@ router.get('/', function(req, res) {
   Article.find({}, function (err, articles) {
     if (err){
       console.log("errrrrr")
-      res.send(err);
+      res.render('index.ejs', {
+        msg: err
+      });
     }
     console.log("Articleeeees")
     console.log(articles)
     res.render('index.ejs', {
-        articles
+      articles
     })
 
 })
 .populate('author');
-
-  res.render('index', { title: 'Express' });
 });
+
+/* GET Read Article page. */
+router.get("/article/:cont", function (req, res) {
+
+  let news;
+  Article.findOne({
+      name: req.params.cont
+  }, function (err, article) {
+      if (err)
+          res.send(err);
+      res.render("article.ejs", {
+          name: article.name,
+          author: article.author.firstname + " " + article.author.lastname,
+          shortTxt: article.shortTxt,
+          longTxt: article.longTxt,
+          date: article.date,
+          pic: "../uploads/article/" + article.pic
+
+      })
+  }).populate('author');
+
+})
 
 router.get('/panel*' , function(req, res, next ){
 res.sendFile('index.html',{root: path.join(__dirname, '../panel/build')});
