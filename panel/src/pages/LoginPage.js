@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
-import pages from './pages.css';
 import {Link} from 'react-router-dom';
 
 
