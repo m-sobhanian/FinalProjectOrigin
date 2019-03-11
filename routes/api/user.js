@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 const User = require('../../models/user');
 const Article = require('../../models/article');
+const Comment = require('../../models/comment')
 const multer = require("multer");
 const path=require('path');
-const fs = require('fs')
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/article",
@@ -308,6 +309,63 @@ router.post('/viewAllArticles',(req, res) => {
   .populate('author');
 })
 
+router.post('/saveComment', (req, res) => {
+  if(!req.body){
+    return res.json({
+      success: false,
+      msg: "Field empty."
+    })
+  }
+  const COMMENT= req.body;
+  let comment=new Comment({
+    name: COMMENT.name,
+    content: COMMENT.content,
+    author: req.user._id,
+    article: COMMENT.article
+  })
+
+  comment.save((err, comment)=> {
+    if(err) {
+      console.log(err.message);
+      return res.json({
+        success: false,
+        msg: "Something wrong in save comment."
+      })
+    }
+
+    res.json({
+      success: true,
+      msg: "Comment successfully saved.",
+      comment
+    })
+  })
+  
+})
+
+router.post('/findComments', (req, res) => {
+  if(!req.body){
+    return res.json({
+      success: false,
+      msg: "Field empty."
+    })
+  }
+  const id=req.body.id;
+  Comment.find({article:id},(err , comments)=> {
+    if(err) {
+      console.log(err.message);
+      return res.json({
+        success: false,
+        msg: "Something wrong in find comments."
+      })
+    }
+    console.log(comments)
+    res.json({
+      success: true,
+      msg: "Comments successfully find.",
+      comments
+    })
+  }).populate('author');
+})
 
 module.exports = router;
 

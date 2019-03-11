@@ -30,10 +30,8 @@ render () {
     let {aN, user, idA, ArtEdited}=this.props;
 
     let articleAdded=aN;
-    console.log(idA);
 
     if(!isEmpty(ArtEdited)){
-        console.log("nnnnnnnn")
         articles=articles.map(article=>{
             if(article['_id']===ArtEdited['_id']){
                return ArtEdited;
@@ -43,7 +41,6 @@ render () {
     }
         if(idA.length!==0){
             
-            console.log("dddddddd "+ idA.length)
 
             articles=articles.filter(value=> {
                 return value._id!==idA;
@@ -52,7 +49,6 @@ render () {
         }
         if(articleAdded.length!==0)
         {
-            console.log("eeeeeee")
 
             articleAdded.forEach(element => {
                 articles.push(element);
