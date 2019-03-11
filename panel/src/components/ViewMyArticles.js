@@ -23,14 +23,18 @@ class ViewMyArticles extends Component {
     }
     deleteArticle = (idArticle) => {
         let {articles}= this.state;
+        const {deleteA}=this.props;
         articles=articles.filter(value=>{
             return value._id!==idArticle
         })
+        deleteA(idArticle);
         this.setState({articles});
     }
 
     editArticle = (result) => {
         let {articles}= this.state;
+        let {editA}= this.props;
+
         articles=articles.map(article=>{
             if(article['_id']===result['_id']){
                
@@ -38,6 +42,7 @@ class ViewMyArticles extends Component {
             }
             return article;
         })
+        editA(result);
         this.setState({articles});
     }
 

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Row, Col, Nav, Tab, Image, Button} from 'react-bootstrap';
-import {NewArticle, ViewMyArticles, EditProfile, EditAvatar} from '../components'
+import {NewArticle, ViewMyArticles, EditProfile, EditAvatar, ViewAllArticles} from '../components'
 import Axios from 'axios';
 
 class Dashboard extends Component {
@@ -10,7 +10,10 @@ class Dashboard extends Component {
       articleNew : [],
       message:'',
       user:{},
-      isRequest:true
+      isRequest:true,
+      aN :[],
+      idA: '',
+      ArtEdited: {}
     }
 
     const data={};
@@ -33,10 +36,12 @@ class Dashboard extends Component {
     }
     
     addArticle = (article) => {
-      let {articleNew}=this.state;
+      let {articleNew, aN}=this.state;
       articleNew=[];
+      aN=[];
       articleNew.push(article);
-      this.setState({articleNew});
+      aN.push(article);
+      this.setState({articleNew, aN});
     }
 
     editPro = (u) => {
@@ -50,8 +55,27 @@ class Dashboard extends Component {
       user["pic"]=data;
       this.setState({user});
     }
+
+    deleteA=(id)=> {
+    console.log("mmmmmmm")
+    let {idA}=this.state;
+    // idA.length=0;
+    idA=id;
+    console.log("idA " +idA)
+    console.log("TidA " + typeof(idA))
+
+      this.setState({idA});
+    }
+
+    editA=(result)=> {
+      let {ArtEdited}=this.state;
+      ArtEdited={};
+      ArtEdited=result;
+      this.setState({ArtEdited});
+    }
+
     render() {
-        const {user, isRequest, articleNew}=this.state;
+        const {user, isRequest, articleNew, aN, idA, ArtEdited}=this.state;
       if(isRequest){
         return <p>Waiting ...</p>
       }
@@ -62,18 +86,20 @@ class Dashboard extends Component {
           <p className="text-white"> {user["firstname"] + " " + user["lastname"]}</p>
             <Nav variant="pills" className="flex-column">
             <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="first">Edit Avatar</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="first">New Article</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="second">My Articles</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="third">All Articles</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="fourth">Edit Profile</Nav.Link>
               </Nav.Item>
             <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="second">Edit Profile</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="fifth">Edit Avatar</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="third">Create Article</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="fourth">View My Articles</Nav.Link>
-              </Nav.Item>
-             
             </Nav>
             
             <Button className="colorBtnDark btnClass mt-4" onClick={this.logout}>
@@ -84,18 +110,20 @@ class Dashboard extends Component {
           <Col xs={6} sm={9} className="contentRight mtContent">
             <Tab.Content>
             <Tab.Pane eventKey="first">
-              <EditAvatar edit={this.editAvatar} pic={user["pic"]}/>
-              </Tab.Pane>
-            <Tab.Pane eventKey="second">
-              <EditProfile user={user} edit={this.editPro}/>
-              </Tab.Pane>
-              <Tab.Pane eventKey="third">
               <NewArticle add={this.addArticle}/>
               </Tab.Pane>
-              <Tab.Pane eventKey="fourth">
-              <ViewMyArticles articleNew={articleNew} user={user}/>
+              <Tab.Pane eventKey="second">
+            <ViewMyArticles articleNew={articleNew} user={user} deleteA={this.deleteA} editA={this.editA}/>
               </Tab.Pane>
-             
+              <Tab.Pane eventKey="third">
+              <ViewAllArticles aN={aN} user={user} idA={idA} ArtEdited={ArtEdited}/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="fourth">
+              <EditProfile user={user} edit={this.editPro}/>
+              </Tab.Pane>
+            <Tab.Pane eventKey="fifth">
+              <EditAvatar edit={this.editAvatar} pic={user["pic"]}/>
+              </Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>

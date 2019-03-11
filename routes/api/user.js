@@ -60,7 +60,7 @@ router.post('/newArticle', (req,res) => {
           console.log(err.message);
           return res.json({
             success:false,
-            msg: "something wrong in user sign up."
+            msg: "something wrong in upload image."
           })
         }
         else{
@@ -289,6 +289,26 @@ router.post('/editArticle', (req,res)=> {
   })
 
 })
+
+router.post('/viewAllArticles',(req, res) => {
+  Article.find({}, function (err, articles) {
+      if (err){
+          console.log(err.message);
+          return res.json({
+            success:false,
+            msg: "Something wrong in find articles."
+          })
+      }
+
+      res.json({
+          success: true,
+          articles
+        })
+  })
+  .populate('author');
+})
+
+
 module.exports = router;
 
 
