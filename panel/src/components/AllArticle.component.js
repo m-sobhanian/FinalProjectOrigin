@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
-import { Card, Button, Col, Row } from 'react-bootstrap';
+import { Card, Button, Col, Row, Collapse, Form } from 'react-bootstrap';
 
 
 class AllArticle extends Component {
     state={
         message:'',
-        isReadMore: false
+        isReadMore: false,
+        open: false
     }
 
   readMore=()=>{
@@ -23,10 +24,10 @@ class AllArticle extends Component {
 
     render() {
         const {article, user}= this.props;
-        const {isReadMore}= this.state;
+        const {isReadMore, open}= this.state;
         if(isReadMore){
                       return <Col sm={12} xs={12}>
-                        <Card className="text-center">
+                        <Card className="text-center mb-2">
                         <Card.Img className="imgArticle" variant="top" src={"../../../uploads/article/" + article.pic}/>
                         <Card.Header>{article.name}</Card.Header>
                         <Card.Body>
@@ -42,9 +43,33 @@ class AllArticle extends Component {
                         </Card.Text>
                         </Card.Body>
                         <Card.Footer className="text-muted">
-                            <Button className="colorBtnDark btnClass float-left" onClick={this.exitReadmore}>Back</Button>
+                            <Button className="colorBtnDark btnClass" onClick={this.exitReadmore}>Back</Button>
                         </Card.Footer>
                         </Card>
+                        <Button className="colorBtnDark btnClass float-left mr-2" 
+                        onClick={() => this.setState({ open: !open })}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                        >
+                        New Comment
+                      </Button>
+                      <Collapse in={this.state.open}>
+                        <div id="example-collapse-text">
+                        <Form>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Control type="text" placeholder="Name" name="name"/>
+                          </Form.Group>
+                          <Form.Group controlId="formBasicPassword">
+                            <Form.Control as="textarea" rows="2" name="content"/>
+                          </Form.Group>
+                          <Col sm={1}>
+                          <Button className="colorBtnDark btnClass" type="submit">
+                            Send
+                          </Button>
+                          </Col>
+                        </Form>
+                        </div>
+                      </Collapse>
                         </Col>
                     }
                     if(typeof(article.author)=="object"){
@@ -63,14 +88,37 @@ class AllArticle extends Component {
                 <Card.Text>
                  {article.date}
                 </Card.Text>
-                <Row>
+                <Row className="justify-content-center">
                   <Col sm={6} md={6} lg={4}>
                   <Button className="colorBtnDark btnClass" onClick={this.readMore}>Read More</Button>
                   </Col>
                 </Row>
               </Card.Body>
-            
             </Card>
+            <Button className="colorBtnDark btnClass float-left mr-2" 
+                        onClick={() => this.setState({ open: !open })}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                        >
+                        New Comment
+                      </Button>
+                      <Collapse in={this.state.open}>
+                        <div id="example-collapse-text">
+                        <Form>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Control type="text" placeholder="Name" name="name"/>
+                          </Form.Group>
+                          <Form.Group controlId="formBasicPassword">
+                            <Form.Control as="textarea" rows="2" name="content"/>
+                          </Form.Group>
+                          <Col sm={2}>
+                          <Button className="colorBtnDark btnClass" type="submit">
+                            Send
+                          </Button>
+                          </Col>
+                        </Form>
+                        </div>
+                      </Collapse>
             </Col>
                     }
                     else {
@@ -89,7 +137,7 @@ class AllArticle extends Component {
                 <Card.Text>
                  {article.date}
                 </Card.Text>
-                <Row>
+                <Row className="justify-content-center">
                   <Col sm={6} md={6} lg={4}>
                   <Button className="colorBtnDark btnClass" onClick={this.readMore}>Read More</Button>
                   </Col>
@@ -97,6 +145,30 @@ class AllArticle extends Component {
               </Card.Body>
             
             </Card>
+            <Button className="colorBtnDark btnClass float-left mr-2" 
+                        onClick={() => this.setState({ open: !open })}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                        >
+                        New Comment
+                      </Button>
+                      <Collapse in={this.state.open}>
+                        <div id="example-collapse-text">
+                        <Form>
+                          <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Control type="text" placeholder="Name" name="name"/>
+                          </Form.Group>
+                          <Form.Group controlId="formBasicPassword">
+                            <Form.Control as="textarea" rows="2" name="content"/>
+                          </Form.Group>
+                          <Col sm={2}>
+                          <Button className="colorBtnDark btnClass" type="submit">
+                            Send
+                          </Button>
+                          </Col>
+                        </Form>
+                        </div>
+                      </Collapse>
             </Col>
                     }
                      
