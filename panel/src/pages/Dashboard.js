@@ -83,7 +83,7 @@ class Dashboard extends Component {
         <Row>
           <Col xs={6} sm={3} className="sidebarLeft">
           <Image className="avatarPro" src={"../../../uploads/avatar/" + user["pic"]} roundedCircle/>
-          <p className="text-white"> {user["firstname"] + " " + user["lastname"]}</p>
+          <p className="text-white mt-2"> {user["firstname"] + " " + user["lastname"]}</p>
             <Nav variant="pills" className="flex-column">
             <Nav.Item>
                 <Nav.Link className="colorTabLight" eventKey="first">New Article</Nav.Link>

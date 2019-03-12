@@ -24,6 +24,16 @@ class ViewAllArticles extends Component {
     });
 }
 
+deleteArticle = (idArticle) => {
+    let {articles}= this.state;
+    const {deleteArt}=this.props;
+    articles=articles.filter(value=>{
+        return value._id!==idArticle
+    })
+    deleteArt(idArticle);
+    this.setState({articles});
+}
+
 render () {
 
     let {articles}=this.state;
@@ -59,7 +69,7 @@ render () {
         return <Row>
             {
                articles.map(article=> {
-                 return <AllArticle article={article} user={user}/>
+                 return <AllArticle article={article} user={user} deleteArticle={this.deleteArticle}/>
             
                })
         }

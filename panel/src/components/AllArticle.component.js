@@ -8,7 +8,8 @@ class AllArticle extends Component {
         message:'',
         isReadMore: false,
         open: false,
-        open2: false
+        open2: false,
+        commentNew: []
           }
 
   readMore=()=>{
@@ -35,7 +36,10 @@ class AllArticle extends Component {
     Axios.post('//localhost:3000/api/user/saveComment',data)
     .then(response=>{
         if (response.data.success){
-          this.setState({commentNew:response.data.comment, message: response.data.msg});
+          let {commentNew}=this.state;
+          commentNew=[];
+          commentNew.push(response.data.comment);
+          this.setState({commentNew, message: response.data.msg});
 
         }else {
             this.setState({message: response.data.msg})
@@ -43,9 +47,29 @@ class AllArticle extends Component {
     })
   }
 
+  delete=() => {
+    const {article,deleteArticle}= this.props;
+    const data={
+      idArticle: article._id,
+      pic:article.pic
+    };
+    Axios.post('//localhost:3000/api/user/deleteArticle',data)
+    .then(response=>{
+        if (response.data.success){
+          console.log("ttttttt")
+            this.setState({message:response.data.msg});
+            deleteArticle(article._id);
+        }else {
+          console.log("nnnnnnn")
+
+            this.setState({message: response.data.msg })
+            
+        }
+    });
+  }
     render() {
         const {article, user}= this.props;
-        const {isReadMore, open, open2}= this.state;
+        const {isReadMore, open, open2, commentNew}= this.state;
         if(isReadMore){
                       return <Col sm={12} xs={12}>
                         <Card className="text-center mb-2">
@@ -64,7 +88,9 @@ class AllArticle extends Component {
                         </Card.Text>
                         </Card.Body>
                         <Card.Footer className="text-muted">
-                            <Button className="colorBtnDark btnClass" onClick={this.exitReadmore}>Back</Button>
+                            <Button className="colorBtnDark btnClass mr-3" onClick={this.exitReadmore}>Back</Button>
+                            {user['role']==='admin'? <Button className="colorBtnDark btnClass" onClick={this.delete}>Delete</Button>: ''}
+
                         </Card.Footer>
                         </Card>
                         <Button className="colorBtnDark btnClass float-left mb-4" 
@@ -76,7 +102,7 @@ class AllArticle extends Component {
                       </Button>
                       <Collapse in={this.state.open2}>
                         <Row id="example-collapse-text" className="mb-4 pl-4">
-                          <Comments id={article['_id']}/>
+                          <Comments id={article['_id']} role={user['role']} commentNew={commentNew}/>
                         </Row>
                       </Collapse>
 
@@ -101,6 +127,8 @@ class AllArticle extends Component {
                             Send
                           </Button>
                           </Col>
+                          <p style={{color:"red"}}>{this.state.message}</p>
+
                         </Form>
                         </div>
                       </Collapse>
@@ -125,12 +153,13 @@ class AllArticle extends Component {
                 </Card.Text>
                 <Row className="justify-content-center">
                   <Col sm={6} md={6} lg={4}>
-                  <Button className="colorBtnDark btnClass" onClick={this.readMore}>Read More</Button>
+                  <Button className="colorBtnDark btnClass mb-2" onClick={this.readMore}>Read More</Button>
+                  {user['role']==='admin'? <Button className="colorBtnDark btnClass" onClick={this.delete}>Delete</Button>: ''}
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
-            <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
+            {/* <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
                         onClick={() => this.setState({ open: !open })}
                         aria-controls="example-collapse-text"
                         aria-expanded={open}
@@ -154,7 +183,7 @@ class AllArticle extends Component {
                           <p style={{color:"red"}}>{this.state.message}</p>
                         </Form>
                         </div>
-                      </Collapse>
+                      </Collapse> */}
 
             </Col>
                     }
@@ -176,13 +205,14 @@ class AllArticle extends Component {
                 </Card.Text>
                 <Row className="justify-content-center">
                   <Col sm={6} md={6} lg={4}>
-                  <Button className="colorBtnDark btnClass" onClick={this.readMore}>Read More</Button>
+                  <Button className="colorBtnDark btnClass mb-2" onClick={this.readMore}>Read More</Button>
+                  {user['role']==='admin'? <Button className="colorBtnDark btnClass" onClick={this.delete}>Delete</Button>: ''}
                   </Col>
                 </Row>
               </Card.Body>
             
             </Card>
-            <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
+            {/* <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
                         onClick={() => this.setState({ open: !open })}
                         aria-controls="example-collapse-text"
                         aria-expanded={open}
@@ -206,7 +236,7 @@ class AllArticle extends Component {
                           <p style={{color:"red"}}>{this.state.message}</p>
                         </Form>
                         </div>
-                      </Collapse>
+                      </Collapse> */}
 
                      </Col>
                     }

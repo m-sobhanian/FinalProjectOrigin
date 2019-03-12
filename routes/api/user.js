@@ -214,6 +214,7 @@ Article.deleteOne({_id:ID_ARTICLE}, (err) => {
       msg: "Something wrong in delete article."
     })
   }
+
   const img=req.body.pic;
   const path = 'public/uploads/article/' + img; 
   fs.unlink(path, (err) => {
@@ -224,11 +225,21 @@ Article.deleteOne({_id:ID_ARTICLE}, (err) => {
   
     //file removed
   })
-  res.json({
-    success: true,
-    msg: "Article successfully deleted.",
-    
+  Comment.deleteMany({article:ID_ARTICLE}, (err)=> {
+    if (err) {
+      console.log(err.message);
+      return res.json({
+        success:false,
+        msg: "Something wrong in delete comments."
+      })
+    }
+    res.json({
+      success: true,
+      msg: "Article and Comments successfully deleted.",
+      
+    })
   })
+ 
 })
 
 })

@@ -13,7 +13,8 @@ class DashboardAdmin extends Component {
       isRequest:true,
       aN :[],
       idA: '',
-      ArtEdited: {}
+      ArtEdited: {},
+      idArtDelete:''
     }
 
     const data={};
@@ -57,13 +58,8 @@ class DashboardAdmin extends Component {
     }
 
     deleteA=(id)=> {
-    console.log("mmmmmmm")
-    let {idA}=this.state;
-    // idA.length=0;
-    idA=id;
-    console.log("idA " +idA)
-    console.log("TidA " + typeof(idA))
-
+      let {idA}=this.state;
+      idA=id;
       this.setState({idA});
     }
 
@@ -74,8 +70,12 @@ class DashboardAdmin extends Component {
       this.setState({ArtEdited});
     }
 
+    deleteArt=(id) => {
+      this.setState({idArtDelete:id});
+    }
+
     render() {
-        const {user, isRequest, articleNew, aN, idA, ArtEdited}=this.state;
+        const {user, isRequest, articleNew, aN, idA, ArtEdited, idArtDelete}=this.state;
       if(isRequest){
         return <p>Waiting ...</p>
       }
@@ -83,7 +83,7 @@ class DashboardAdmin extends Component {
         <Row>
           <Col xs={6} sm={3} className="sidebarLeft">
           <Image className="avatarPro" src={"../../../uploads/avatar/" + user["pic"]} roundedCircle/>
-          <p className="text-white"> {user["firstname"] + " " + user["lastname"]}</p>
+          <p className="text-white mt-2"> {user["firstname"] + " " + user["lastname"]}</p>
             <Nav variant="pills" className="flex-column">
             <Nav.Item>
                 <Nav.Link className="colorTabLight" eventKey="first">New Article</Nav.Link>
@@ -116,10 +116,10 @@ class DashboardAdmin extends Component {
               <NewArticle add={this.addArticle}/>
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-            <ViewMyArticles articleNew={articleNew} user={user} deleteA={this.deleteA} editA={this.editA}/>
+            <ViewMyArticles articleNew={articleNew} user={user} deleteA={this.deleteA} editA={this.editA} idArtDelete={idArtDelete}/>
               </Tab.Pane>
               <Tab.Pane eventKey="third">
-              <ViewAllArticles aN={aN} user={user} idA={idA} ArtEdited={ArtEdited}/>
+              <ViewAllArticles aN={aN} user={user} idA={idA} ArtEdited={ArtEdited} deleteArt={this.deleteArt}/>
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
               <ViewAllUsers/>

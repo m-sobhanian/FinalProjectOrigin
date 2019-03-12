@@ -48,16 +48,37 @@ class ViewMyArticles extends Component {
 
     render () {
         // console.log("ViewMyArticle")
-        const {articles}=this.state;
-        const {articleNew, user}=this.props;
+        let {articles}=this.state;
+        const {articleNew, user, idArtDelete}=this.props;
+
         let articleAdded=articleNew;
+
+       if(user['role']==='admin'){
+        if(idArtDelete.length>0){
+            articles=articles.filter(article=> {
+                return article._id!==idArtDelete;
+            })
+            
+        }
+       }
+       
        
             if(articleAdded.length!==0){
-                articleAdded.forEach(element => {
-                    articles.push(element);
-                });
-                articleAdded.length=0;
-            }
+                        articleAdded.forEach(element => {
+                            articles.push(element);
+                        });
+                        articleAdded.length=0;
+                    }
+        
+        // if(user['role']==='admin'){
+        //     if(articleAdded.length!==0){
+        //         articleAdded.forEach(element => {
+        //             articles.push(element);
+        //         });
+        //         articleAdded.length=0;
+        //     }
+        // }
+            
             return <Row>
                    
                 {

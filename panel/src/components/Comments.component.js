@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
-import {Row, Media, Col} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
+import {PerComment} from '../components'
 
 class Comments extends Component {
     constructor(props) {
@@ -23,28 +24,28 @@ class Comments extends Component {
         })
     }
 
+    deleteComment=(id) => {
+        let {comments}=this.state;
+        comments=comments.filter(comment => {
+                return comment['_id']!==id;
+               })
+               this.setState({comments});
+    }
     render() {
         const {comments}=this.state;
+        let {commentNew, role}=this.props;
+        let CN=commentNew;
+        if(CN.length!==0){
+            CN.forEach(element => {
+                comments.push(element);
+            });
+            CN.length=0;
+        }
         return <Row>
             {
                 comments.map(comment => {
-                    return <Col sm={12}>
-                    <Media>
-                        <img
-                            width={64}
-                            height={64}
-                            className="mr-3"
-                            src={"../../../uploads/avatar/" + comment.author.pic}
-                            alt="Generic placeholder"
-                        />
-                        <Media.Body>
-                            <h5>{comment['name']}</h5>
-                            <p>
-                           {comment['content']}
-                            </p>
-                        </Media.Body>
-                        </Media>
-                                            </Col>
+                    return <PerComment comment={comment} role={role} deleteComment={this.deleteComment}/>
+                  
                                         })
                                     }
             </Row>
