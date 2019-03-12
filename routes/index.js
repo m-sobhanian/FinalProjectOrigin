@@ -193,7 +193,7 @@ router.post('/signin', passport.authenticate('local-login'), (req, res) => {
  
 });
 
-// router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']),admin);
+router.use('/api/admin', auth.isLogedIn, ac.roleBaseAccess(['admin']),admin);
 router.use('/api/user', auth.isLogedIn, ac.roleBaseAccess(['admin', 'user']), user);
 
 module.exports = router;

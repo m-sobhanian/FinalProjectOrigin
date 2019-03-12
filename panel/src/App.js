@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {RegisterPage} from './pages';
+import {RegisterPage, DashboardAdmin} from './pages';
 import {LoginPage} from './pages';
 import {Dashboard} from './pages';
 
@@ -10,6 +10,7 @@ import {
   Switch
 } from 'react-router-dom';
 import PrivateRouter from './router/PrivateRouter';
+
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route exact path="/register" component={RegisterPage}></Route>
             <Route exact path="/login" component={LoginPage}></Route>
             <PrivateRouter path="/dashboard" component={Dashboard}/>
+            <PrivateRouter path="/dashboardAdmin" component={DashboardAdmin}/>
           </Switch>
         </Router>
       </div>

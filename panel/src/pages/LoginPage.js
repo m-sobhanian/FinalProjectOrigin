@@ -22,7 +22,9 @@ state = {
         .then(response=>{
             if (response.data.success){
                 localStorage.setItem('loginData',JSON.stringify(data));
+                if(response.data.user['role']==='user')
                 window.location = '/panel/dashboard';
+                window.location= '/panel/dashboardAdmin'
             }else {
               
                
@@ -47,7 +49,7 @@ state = {
             <p style={{color:"red"}}>{this.state.message}</p>
             <form onSubmit={this.onSubmit} className="mb-3">
                 <div className="form-group">
-                    <input className="form-control" type= "email" name="username" placeholder="Email" value={this.state.username} onChange={this.onChange}></input>
+                    <input className="form-control" type= "text" name="username" placeholder="Email" value={this.state.username} onChange={this.onChange}></input>
                 </div>
                 <div className="form-group">
                     <input className="form-control" type= "password" name="password" placeholder="Password"></input>
