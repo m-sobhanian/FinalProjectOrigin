@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Row, Col, Nav, Tab, Image, Button} from 'react-bootstrap';
-import {NewArticle, ViewMyArticles, EditProfile, EditAvatar, ViewAllArticles} from '../components'
+import {NewArticle, ViewMyArticles, EditProfile, EditAvatar, ViewAllArticles, ViewAllUsers} from '../components'
 import Axios from 'axios';
 
 class DashboardAdmin extends Component {
@@ -95,10 +95,13 @@ class DashboardAdmin extends Component {
                 <Nav.Link className="colorTabLight" eventKey="third">All Articles</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="fourth">Edit Profile</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="fourth">All Users</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link className="colorTabLight" eventKey="ninth">Edit Profile</Nav.Link>
               </Nav.Item>
             <Nav.Item>
-                <Nav.Link className="colorTabLight" eventKey="fifth">Edit Avatar</Nav.Link>
+                <Nav.Link className="colorTabLight" eventKey="tenth">Edit Avatar</Nav.Link>
               </Nav.Item>
             </Nav>
             
@@ -119,9 +122,12 @@ class DashboardAdmin extends Component {
               <ViewAllArticles aN={aN} user={user} idA={idA} ArtEdited={ArtEdited}/>
               </Tab.Pane>
               <Tab.Pane eventKey="fourth">
+              <ViewAllUsers/>
+              </Tab.Pane>
+              <Tab.Pane eventKey="ninth">
               <EditProfile user={user} edit={this.editPro}/>
               </Tab.Pane>
-            <Tab.Pane eventKey="fifth">
+            <Tab.Pane eventKey="tenth">
               <EditAvatar edit={this.editAvatar} pic={user["pic"]}/>
               </Tab.Pane>
             </Tab.Content>

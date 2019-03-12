@@ -6,3 +6,5 @@ export * from './EditAvatar.component';
 export * from './ViewAllArticles.component';
 export * from './AllArticle.component';
 export * from './Comments.component';
+export * from './ViewAllUsers.component';
+export * from './Users.component';
