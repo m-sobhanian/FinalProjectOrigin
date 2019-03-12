@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
-import {Article} from '../components';
+import {Article} from '.';
 import {Row} from 'react-bootstrap';
 
 class ViewMyArticles extends Component {
