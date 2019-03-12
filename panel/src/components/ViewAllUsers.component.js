@@ -23,6 +23,15 @@ class ViewAllUsers extends Component {
       });
   }
   
+
+  deleteUser=(id) => {
+    let {users}=this.state;
+    users=users.filter(user=> {
+        return user['_id']!==id
+    })
+    this.setState({users});
+  }
+
   render () {
   
       let {users}=this.state;
@@ -42,7 +51,7 @@ class ViewAllUsers extends Component {
         <tbody>
               {
                  users.map(u=> {
-                   return <Users u={u}/>
+                   return <Users u={u} deleteUser={this.deleteUser}/>
               
                  })
           }

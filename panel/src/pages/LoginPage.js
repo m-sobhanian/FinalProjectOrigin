@@ -22,12 +22,15 @@ state = {
         .then(response=>{
             if (response.data.success){
                 localStorage.setItem('loginData',JSON.stringify(data));
-                if(response.data.user['role']==='user')
-                window.location = '/panel/dashboard';
-                window.location= '/panel/dashboardAdmin'
+                let u=response.data.user;
+                let role=u['role'];
+                if(role==='user'){
+                    window.location = '/panel/dashboard';
+                }
+                else{
+                    window.location= '/panel/dashboardAdmin'
+                }
             }else {
-              
-               
                 this.setState({message: response.data.msg})
             }
         })

@@ -174,8 +174,7 @@ router.post('/signUp', (req, res)=>{
 
 
 router.post('/signin', passport.authenticate('local-login'), (req, res) => {
-  console.log(req.body);
-  User.find({username:req.body.username},(err, user)=> {
+  User.findOne({username:req.body.username},(err, user)=> {
     if(err){
       res.json({
         success: false,

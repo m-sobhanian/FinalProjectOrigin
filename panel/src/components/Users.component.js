@@ -1,7 +1,26 @@
 import React,{Component} from 'react';
 import {Button } from 'react-bootstrap';
+import Axios from 'axios';
 
 class Users extends Component {
+
+    delete=() => {
+        const {u, deleteUser}=this.props;
+        const data={
+            idUser: u._id,
+            pic:u.pic
+          };
+        Axios.post('//localhost:3000/api/admin/deleteUser',data)
+        .then(response=>{
+            if (response.data.success){
+                deleteUser(u['_id']);
+                this.setState({message:response.data.msg});
+            }else {
+                this.setState({message: response.data.msg })
+                
+            }
+        });
+    }
     render () {
   
         let {u}=this.props;
