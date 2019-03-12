@@ -4,6 +4,7 @@ const path=require('path');
 const multer = require("multer");
 const User = require('../models/user');
 const Article = require('../models/article');
+const Comment = require('../models/comment');
 const auth = require('../tools/authentication.js');
 const ac = require('../tools/ac.js');
 const admin = require('./api/admin');
@@ -59,16 +60,27 @@ router.get("/article/:cont", function (req, res) {
       name: req.params.cont
   }, function (err, article) {
       if (err)
-          res.send(err);
-      res.render("article.ejs", {
-          name: article.name,
-          author: article.author.firstname + " " + article.author.lastname,
-          shortTxt: article.shortTxt,
-          longTxt: article.longTxt,
-          date: article.date,
-          pic: "../uploads/article/" + article.pic
+           return res.send(err);
+          Comment.find({article:article._id}, (err, comments)=> {
+            if(err){
+              console.log(err);
+              return res.send(err);
+            }
+            else{
+              res.render("article.ejs", {
+                name: article.name,
+                author: article.author.firstname + " " + article.author.lastname,
+                shortTxt: article.shortTxt,
+                longTxt: article.longTxt,
+                date: article.date,
+                pic: "../uploads/article/" + article.pic,
+                comments
+      
+            })
+            }
 
-      })
+          }).populate('author');
+     
   }).populate('author');
 
 })

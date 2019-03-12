@@ -17,3 +17,18 @@ body {
   height:300px;
 }
 
+.linkback {
+  padding: 10px;
+  background-color: #00BFA5;
+  color:white;
+  border-radius: 3px;
+}
+
+.linkback:hover {
+  background-color: #00796b;
+  color: white;
+  text-decoration: none;
+  
+
+}
+
