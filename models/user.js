@@ -25,8 +25,7 @@ const user = new Schema({
     },
   
     sex: {
-        type: String,
-        required: true
+        type: String
     },
     role: {
          type: String,

@@ -82,25 +82,42 @@ router.get('/createAdmin', (req, res)=>{
 })
 
 router.post('/createAdmin', function (req, res) {
-  const user = new User({
-    username: "admin",
-    password: "admin",
-    role: "admin"
-  })
-  user.save((err, user) =>{
-    if(err){
-      console.log(err.message);
-      return res.json({
-        success: false,
-        msg: "something wrong in admin creation\n"+err.message
-      })
+  if (!req.body) return res.sendStatus(400);
+  upload(req, res, function (err) {
+    if (err) {
+        res.render("createAdmin", {
+            msg: err
+        })
+    } else {
+        if (req.file == undefined) {
+            res.render("createAdmin", {
+                msg: "Error: No File Selected!"
+            })
+        } else {
+            const ADMIN = req.body;
+            const NEW_ADMIN = new User({
+              firstname: ADMIN.firstname,
+              lastname: ADMIN.lastname,
+              username: ADMIN.username,
+              password: ADMIN.password,
+              phone: ADMIN.phone,
+              sex: ADMIN.optradio,
+              role: 'admin',
+              pic: req.file.filename
+
+            })
+            NEW_ADMIN.save(function (err, user) {
+                if (err)
+                    return console.log(err)
+                res.render("createAdmin", {
+                    msg: "Admin Create!"
+                })
+            })
+
+        }
     }
-    res.json({
-      success: true,
-      msg: "You are successfully sign up.",
-      user
-    })
-  })
+
+})
 })
 
 router.post('/signUp', (req, res)=>{
