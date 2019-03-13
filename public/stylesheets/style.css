@@ -2,7 +2,7 @@ body {
   padding-top: 55px;
   font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black !important;
-  height:100%;
+  height:100vh;
 }
 
  ul li a {
@@ -28,4 +28,22 @@ body {
   background-color: #00796b;
   color: white;
   text-decoration: none;
+}
+
+.paginate {
+  display: inline;
+  padding:2px 9px 2px 9px;
+  border-radius: 3px;
+  background-color: #00BFA5;
+  color: white;
+  margin: 4px;
+}
+
+.paginate:hover {
+  background-color: #00796b;
+}
+
+.linkPage:hover {
+  text-decoration: none;
+
 }

@@ -35,21 +35,69 @@ const upload = multer({
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  Article.find({}, function (err, articles) {
-    if (err){
-      console.log("errrrrr")
-      res.render('index.ejs', {
-        msg: err
-      });
-    }
-    console.log("Articleeeees")
-    console.log(articles)
-    res.render('index.ejs', {
-      articles
-    })
+  let pageNo=1;
+    let size=3;
 
-})
-.populate('author');
+  if(req.query.pageNo!==undefined){
+     pageNo = parseInt(req.query.pageNo)
+     size = parseInt(req.query.size)
+      var query = {}
+      query.skip = size * (pageNo - 1)
+      query.limit = size;
+      Article.countDocuments({}, (err, totalArticle)=> {
+        if(err) {
+          console.log(err.message);
+          res.render('index.ejs', {
+            msg: err
+          });
+        }
+        Article.find({},{}, query, function (err, articles) {
+          if (err){
+            res.render('index.ejs', {
+              msg: err
+            });
+          }
+          let numberOfPage = Math.ceil(totalArticle / size)
+          res.render('index.ejs', {
+            articles,
+            numberOfPage
+          })
+      
+      })
+      .populate('author');
+      })
+  }
+  else{
+    var query = {}
+    query.skip = size * (pageNo - 1)
+    query.limit = size;
+    Article.countDocuments({}, (err, totalArticle)=> {
+      if(err) {
+        console.log(err.message);
+        res.render('index.ejs', {
+          msg: err
+        });
+      }
+      Article.find({},{}, query, function (err, articles) {
+        if (err){
+          console.log("errrrrr")
+          res.render('index.ejs', {
+            msg: err
+          });
+        }
+        let numberOfPage = Math.ceil(totalArticle / size)
+        res.render('index.ejs', {
+          articles,
+          numberOfPage
+        })
+    
+    })
+    .populate('author');
+    })
+   
+  }
+  
+  
 });
 
 /* GET Read Article page. */
