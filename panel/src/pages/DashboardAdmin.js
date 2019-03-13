@@ -12,9 +12,9 @@ class DashboardAdmin extends Component {
       user:{},
       isRequest:true,
       aN :[],
-      idA: '',
+      idA: [],
       ArtEdited: {},
-      idArtDelete:''
+      idArtDelete:[]
     }
 
     const data={};
@@ -59,9 +59,9 @@ class DashboardAdmin extends Component {
 
     deleteA=(id)=> {
       let {idA}=this.state;
-      idA=id;
+      idA.push(id);
       this.setState({idA});
-    }
+      }
 
     editA=(result)=> {
       let {ArtEdited}=this.state;
@@ -71,7 +71,9 @@ class DashboardAdmin extends Component {
     }
 
     deleteArt=(id) => {
-      this.setState({idArtDelete:id});
+      let {idArtDelete}=this.state;
+      idArtDelete.push(id);
+      this.setState({idArtDelete});
     }
 
     render() {

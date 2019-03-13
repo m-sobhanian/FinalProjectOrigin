@@ -55,9 +55,12 @@ class ViewMyArticles extends Component {
 
        if(user['role']==='admin'){
         if(idArtDelete.length>0){
-            articles=articles.filter(article=> {
-                return article._id!==idArtDelete;
+            idArtDelete.forEach(id=> {
+                articles=articles.filter(article=> {
+                    return article._id!==id;
+                })
             })
+            
             
         }
        }
@@ -70,14 +73,6 @@ class ViewMyArticles extends Component {
                         articleAdded.length=0;
                     }
         
-        // if(user['role']==='admin'){
-        //     if(articleAdded.length!==0){
-        //         articleAdded.forEach(element => {
-        //             articles.push(element);
-        //         });
-        //         articleAdded.length=0;
-        //     }
-        // }
             
             return <Row>
                    

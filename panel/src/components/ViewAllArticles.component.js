@@ -49,12 +49,13 @@ render () {
             return article;
         })
     }
-        if(idA.length!==0){
-            
-
-            articles=articles.filter(value=> {
-                return value._id!==idA;
+        if(idA.length>0){
+            idA.forEach(id=>{
+                articles=articles.filter(value=> {
+                    return value._id!==id;
+                })
             })
+           
           
         }
         if(articleAdded.length!==0)

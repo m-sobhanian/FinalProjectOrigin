@@ -12,7 +12,7 @@ class Dashboard extends Component {
       user:{},
       isRequest:true,
       aN :[],
-      idA: '',
+      idA: [],
       ArtEdited: {}
     }
 
@@ -57,14 +57,9 @@ class Dashboard extends Component {
     }
 
     deleteA=(id)=> {
-    console.log("mmmmmmm")
     let {idA}=this.state;
-    // idA.length=0;
-    idA=id;
-    console.log("idA " +idA)
-    console.log("TidA " + typeof(idA))
-
-      this.setState({idA});
+    idA.push(id);
+    this.setState({idA});
     }
 
     editA=(result)=> {
