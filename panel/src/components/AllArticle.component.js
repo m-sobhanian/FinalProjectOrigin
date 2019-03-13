@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Card, Button, Col, Row, Collapse, Form } from 'react-bootstrap';
+import { Card, Button, Col, Row, Collapse, Form, Modal } from 'react-bootstrap';
 import Axios from 'axios';
 import {Comments} from '../components'
 
@@ -9,7 +9,9 @@ class AllArticle extends Component {
         isReadMore: false,
         open: false,
         open2: false,
-        commentNew: []
+        commentNew: [],
+        show: false
+
           }
 
   readMore=()=>{
@@ -39,10 +41,13 @@ class AllArticle extends Component {
           let {commentNew}=this.state;
           commentNew=[];
           commentNew.push(response.data.comment);
-          this.setState({commentNew, message: response.data.msg});
+          this.setState({show: true, message: response.data.msg, commentNew});
+
+          // this.setState({commentNew, message: response.data.msg});
 
         }else {
-            this.setState({message: response.data.msg})
+          this.setState({show: true, message: response.data.msg});
+
         }
     })
   }
@@ -56,22 +61,40 @@ class AllArticle extends Component {
     Axios.post('//localhost:3000/api/user/deleteArticle',data)
     .then(response=>{
         if (response.data.success){
-          console.log("ttttttt")
-            this.setState({message:response.data.msg});
+          alert(response.data.msg);
+          // this.setState({message: response.data.msg});
+
             deleteArticle(article._id);
         }else {
-          console.log("nnnnnnn")
+          alert(response.data.msg);
 
-            this.setState({message: response.data.msg })
+          // this.setState({show: true, message: response.data.msg});
+
             
         }
     });
   }
+
+  handleClose=()=> {
+    this.setState({ show: false });
+  }
+
     render() {
         const {article, user}= this.props;
         const {isReadMore, open, open2, commentNew}= this.state;
         if(isReadMore){
                       return <Col sm={12} xs={12}>
+                      <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
                         <Card className="text-center mb-2">
                         <Card.Img className="imgArticle" variant="top" src={"../../../uploads/article/" + article.pic}/>
                         <Card.Header>{article.name}</Card.Header>
@@ -127,8 +150,6 @@ class AllArticle extends Component {
                             Send
                           </Button>
                           </Col>
-                          <p style={{color:"red"}}>{this.state.message}</p>
-
                         </Form>
                         </div>
                       </Collapse>
@@ -159,37 +180,11 @@ class AllArticle extends Component {
                 </Row>
               </Card.Body>
             </Card>
-            {/* <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
-                        onClick={() => this.setState({ open: !open })}
-                        aria-controls="example-collapse-text"
-                        aria-expanded={open}
-                        >
-                        New Comment
-                      </Button>
-                      <Collapse in={this.state.open}>
-                        <div id="example-collapse-text">
-                        <Form onSubmit={this.saveComment}>
-                          <Form.Group controlId="exampleForm.ControlInput1">
-                            <Form.Control type="text" placeholder="Name" name="name"/>
-                          </Form.Group>
-                          <Form.Group controlId="formBasicPassword">
-                            <Form.Control as="textarea" rows="2" name="content"/>
-                          </Form.Group>
-                          <Col sm={2}>
-                          <Button className="colorBtnDark btnClass" type="submit">
-                            Send
-                          </Button>
-                          </Col>
-                          <p style={{color:"red"}}>{this.state.message}</p>
-                        </Form>
-                        </div>
-                      </Collapse> */}
-
+          
             </Col>
                     }
                     else {
                       return <Col sm={6} xs={12}>
-                      <p style={{color:"red"}}>{this.state.message}</p>
               <Card className="mbCard">
               <Card.Img className="imgArticle" variant="top" src={"../../../uploads/article/" + article.pic}/>
               <Card.Body>
@@ -212,31 +207,6 @@ class AllArticle extends Component {
               </Card.Body>
             
             </Card>
-            {/* <Button className="colorBtnDark btnClass float-left mr-4 mb-4" 
-                        onClick={() => this.setState({ open: !open })}
-                        aria-controls="example-collapse-text"
-                        aria-expanded={open}
-                        >
-                        New Comment
-                      </Button>
-                      <Collapse in={this.state.open}>
-                        <div id="example-collapse-text">
-                        <Form onSubmit={this.saveComment}>
-                          <Form.Group controlId="exampleForm.ControlInput1">
-                            <Form.Control type="text" placeholder="Name" name="name"/>
-                          </Form.Group>
-                          <Form.Group controlId="formBasicPassword">
-                            <Form.Control as="textarea" rows="2" name="content"/>
-                          </Form.Group>
-                          <Col sm={2}>
-                          <Button className="colorBtnDark btnClass" type="submit">
-                            Send
-                          </Button>
-                          </Col>
-                          <p style={{color:"red"}}>{this.state.message}</p>
-                        </Form>
-                        </div>
-                      </Collapse> */}
 
                      </Col>
                     }

@@ -28,11 +28,13 @@ class Article extends Component {
     .then(response=>{
         if (response.data.success){
          alert(response.data.msg);
-          this.setState({message:response.data.msg});
+          // this.setState({message:response.data.msg});
           deleteArticle(article._id);
 
         }else {
-            this.setState({show: true, message: response.data.msg });
+          alert(response.data.msg);
+
+            // this.setState({show: true, message: response.data.msg });
             
         }
     });

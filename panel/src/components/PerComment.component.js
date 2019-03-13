@@ -16,13 +16,15 @@ class PerComment extends Component {
         Axios.post('//localhost:3000/api/admin/deleteComment',data)
         .then(response=>{
             if (response.data.success){ 
+                alert(response.data.msg);
                 let {deleteComment}=this.props;
                 deleteComment(id);
             
               this.setState({message: response.data.msg});
             }else {
-             
-                this.setState({message: response.data.msg});
+                alert(response.data.msg);
+
+                // this.setState({message: response.data.msg});
             }
         })
     }
@@ -43,8 +45,8 @@ class PerComment extends Component {
                     <p>
                    {comment['content']}
                     </p>
+                    {role==='admin' ? <Button className="colorBtnDark btnClass float-left btn-sm" onClick={this.delCom}>Delete</Button> : ''} 
                 </Media.Body>
-                {role==='admin' ? <Button className="colorBtnDark btnClass float-left btn-sm" onClick={this.delCom}>Delete</Button> : ''} 
                 </Media>
             </Col>
         
