@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Form, Button, Row, Col} from 'react-bootstrap';
+import { Form, Button, Row, Col, Modal} from 'react-bootstrap';
 import Axios from 'axios';
 
 
@@ -8,7 +8,8 @@ class EditProfile extends Component {
         super(props);
         this.state = {
             addNew:this.props.user,
-            message:''
+            message:'',
+            show: false
         }
      
     }
@@ -24,25 +25,34 @@ class EditProfile extends Component {
         event.preventDefault();
         const {addNew}=this.state;
         if((addNew["firstname"]===""||addNew["firstname"]===undefined) || (addNew["lastname"]==="" || addNew["lastname"]===undefined) || (addNew["username"]==="" || addNew["username"]===undefined) || (addNew["password"]==="" || addNew["password"]===undefined) || (addNew["phone"]==="" || addNew["phone"]===undefined) || (addNew["sex"]==="" || addNew["sex"]===undefined)){
-            return this.setState({message:"Field is empty"});
+            return  alert("Field is empty");
+            // this.setState({message:"Field is empty"});
         }
         const data=addNew;
         Axios.post('//localhost:3000/api/user/editProfile',data)
         .then(response=>{
             if (response.data.success){
+              this.setState({show: true, message: response.data.msg});
               const {edit}=this.props;
-              edit(response.data.RESULT);              
-                this.setState({message: response.data.msg })
+              edit(response.data.RESULT);
+
+                // this.setState({message: response.data.msg })
             }else {
-                this.setState({message: response.data.msg})
+              this.setState({show: true, message: response.data.msg});
+
+                // this.setState({message: response.data.msg})
             }
         })
     }
+
+    handleClose=()=> {
+      this.setState({ show: false });
+    }
+
     render () {
       let {addNew}=this.state;      
           return (<div style={{width:"50%"}}>
           <Form onSubmit={this.onSubmit}>
-                   <p style={{color:"red"}}>{this.state.message}</p>
            <Form.Group controlId="formBasicEmail">
              <Form.Label>First Name</Form.Label>
              <Form.Control type="string" placeholder="" name="firstname" value={addNew["firstname"]} onChange={this.onChange}/>
@@ -82,6 +92,17 @@ class EditProfile extends Component {
            </Col>
            </Row>
          </Form>
+         <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
                  </div>
                   
                  )
