@@ -8,6 +8,8 @@ var usersRouter = require('./routes/users');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
+var morgan = require('morgan');
+const morganSetup = require('./tools/morgan-setup');
 
 
 var app = express();
@@ -16,6 +18,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+morganSetup(morgan, app);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
