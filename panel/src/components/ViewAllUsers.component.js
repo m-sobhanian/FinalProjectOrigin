@@ -9,7 +9,9 @@ class ViewAllUsers extends Component {
       super(props);
       this.state={
           message:'',
-          users:[]
+          users:[],
+          currentPage: 1,
+          todosPerPage: 2
       }        
       const data={};
       Axios.post('//localhost:3000/api/admin/ViewAllUsers',data)
@@ -32,11 +34,39 @@ class ViewAllUsers extends Component {
     this.setState({users});
   }
 
+  handleClick=(event)=> {
+    this.setState({
+      currentPage: Number(event.target.id)
+    });
+  }
+
   render () {
   
-      let {users}=this.state;
-  
-          return <Table striped bordered hover responsive>
+      let {users, currentPage, todosPerPage}=this.state;
+
+      const indexOfLastTodo = currentPage * todosPerPage;
+      const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+      const currentTodos = users.slice(indexOfFirstTodo, indexOfLastTodo);
+
+      const pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(users.length / todosPerPage); i++) {
+      pageNumbers.push(i);
+      }
+
+      const renderPageNumbers = pageNumbers.map(number => {
+          return (
+            <li className="colorBtnDark btnClass m-2 px-2 py-1" style={{display:"inline", color:'white', borderRadius:'3px' }}
+              key={number}
+              id={number}
+              onClick={this.handleClick}
+            >
+              {number}
+            </li>
+          );
+        });
+
+          return <>
+          <Table striped bordered hover responsive>
           <thead>
             <tr>
             <th>First Name</th>
@@ -50,13 +80,17 @@ class ViewAllUsers extends Component {
         </thead>
         <tbody>
               {
-                 users.map(u=> {
+                 currentTodos.map(u=> {
                    return <Users u={u} deleteUser={this.deleteUser}/>
               
                  })
           }
             </tbody>
           </Table>
+          <ul id="page-numbers">
+            {renderPageNumbers}
+            </ul>
+            </>
   }
   }
   
