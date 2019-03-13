@@ -30,14 +30,14 @@ class PerComment extends Component {
     }
 
     render() {
-        const {comment,role}=this.props;
+        const {comment,role, pic}=this.props;
             return   <Col sm={12}>
             <Media>
                 <img
                     width={64}
                     height={64}
                     className="mr-3"
-                    src={"../../../uploads/avatar/" + comment.author.pic}
+                    src={comment.author.pic? "../../../uploads/avatar/" + comment.author.pic: "../../../uploads/avatar/" + pic}
                     alt="Generic placeholder"
                 />
                 <Media.Body>

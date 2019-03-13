@@ -125,7 +125,7 @@ class AllArticle extends Component {
                       </Button>
                       <Collapse in={this.state.open2}>
                         <Row id="example-collapse-text" className="mb-4 pl-4">
-                          <Comments id={article['_id']} role={user['role']} commentNew={commentNew}/>
+                          <Comments id={article['_id']} role={user['role']} commentNew={commentNew} pic={user['pic']}/>
                         </Row>
                       </Collapse>
 

@@ -33,7 +33,7 @@ class Comments extends Component {
     }
     render() {
         const {comments}=this.state;
-        let {commentNew, role}=this.props;
+        let {commentNew, role, pic}=this.props;
         let CN=commentNew;
         if(CN.length!==0){
             CN.forEach(element => {
@@ -44,7 +44,7 @@ class Comments extends Component {
         return <Row>
             {
                 comments.map(comment => {
-                    return <PerComment comment={comment} role={role} deleteComment={this.deleteComment}/>
+                    return <PerComment comment={comment} role={role} deleteComment={this.deleteComment} pic={pic}/>
                   
                                         })
                                     }

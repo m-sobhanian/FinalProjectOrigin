@@ -21,10 +21,13 @@ class Users extends Component {
         Axios.post('//localhost:3000/api/admin/deleteUser',data)
         .then(response=>{
             if (response.data.success){
+                alert(response.data.msg);
                 deleteUser(u['_id']);
-                this.setState({message:response.data.msg});
+                // this.setState({message:response.data.msg});
             }else {
-                this.setState({message: response.data.msg })
+                alert(response.data.msg);
+
+                // this.setState({message: response.data.msg })
                 
             }
         });
@@ -39,9 +42,12 @@ class Users extends Component {
         Axios.post('//localhost:3000/api/admin/resetPassword',data)
         .then(response=>{
             if (response.data.success){
+                alert(response.data.msg);
                 this.setState({ pass:u.phone});
             }else {
-                this.setState({message: response.data.msg })
+                alert(response.data.msg);
+
+                // this.setState({message: response.data.msg })
                 
             }
         });
