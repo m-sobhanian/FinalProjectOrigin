@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Form, Button, Row, Col} from 'react-bootstrap';
+import { Form, Button, Row, Col, Modal} from 'react-bootstrap';
 import Axios from 'axios';
 
 
@@ -7,7 +7,8 @@ class NewArticle extends Component {
   state = {
     message:'',
     addNewArticle: {},
-    file: null
+    file: null,
+    show: false
 }
 
 onChange= (event) =>{
@@ -28,6 +29,7 @@ onChange= (event) =>{
   Axios.post('//localhost:3000/api/user/newArticle',formData)
         .then(response=>{
             if (response.data.success){
+                this.setState({show: true});
                 this.setState({message: response.data.msg });
                 let {addNewArticle}=this.state;
                 addNewArticle={};
@@ -37,17 +39,19 @@ onChange= (event) =>{
 
 
             }else {
-                this.setState({message: response.data.msg})
+              this.setState({show: true});
+              this.setState({message: response.data.msg})
               
             }
         })
   } 
-    
+  handleClose=()=> {
+    this.setState({ show: false });
+  }
       render() {
         return (<Row>
           <Col sm={6} xs={12}>
             <Form onSubmit={this.onSubmit}>
-                      <p style={{color:"red"}}>{this.state.message}</p>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Name Of Article</Form.Label>
                 <Form.Control type="string" name="nameArticle"/>
@@ -77,9 +81,21 @@ onChange= (event) =>{
                 Submit
               </Button>
                 </Col>
+               
               </Row>
             </Form>
           </Col>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
           </Row>
          
         );
