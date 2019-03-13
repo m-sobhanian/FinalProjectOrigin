@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Card, Button, Col, Row, Form } from 'react-bootstrap';
+import { Card, Button, Col, Row, Form, Modal} from 'react-bootstrap';
 import Axios from 'axios';
 
 
@@ -11,7 +11,8 @@ class Article extends Component {
       isReadMore: false,
       editMode: false,
       addNew:this.props.article,
-      file: null
+      file: null,
+      show: false
     }
  
 }
@@ -26,10 +27,12 @@ class Article extends Component {
     Axios.post('//localhost:3000/api/user/deleteArticle',data)
     .then(response=>{
         if (response.data.success){
-            this.setState({message:response.data.msg});
-            deleteArticle(article._id);
+         alert(response.data.msg);
+          this.setState({message:response.data.msg});
+          deleteArticle(article._id);
+
         }else {
-            this.setState({message: response.data.msg })
+            this.setState({show: true, message: response.data.msg });
             
         }
     });
@@ -89,15 +92,21 @@ class Article extends Component {
     Axios.post('//localhost:3000/api/user/editArticle',formData)
     .then(response=>{
         if (response.data.success){
+          this.setState({show: true, message: response.data.msg});
           this.setState ({editMode:false, isReadMore:false})        
           const {editArticle}=this.props;
           const result=response.data.RESULT;
           result['pic']=response.data.PIC;
           editArticle(result);      
         }else {
-            this.setState({message: response.data.msg})
+            this.setState({show: true, message: response.data.msg});
+
         }
     })
+}
+
+handleClose=()=> {
+  this.setState({ show: false });
 }
 
     render() {
@@ -107,7 +116,6 @@ class Article extends Component {
           if(editMode){
             return <Col sm={6} xs={12}>
    <Form onSubmit={this.saveArticle}>
-            <p style={{color:"red"}}>{this.state.message}</p>
     <Form.Group controlId="formBasicEmail">
       <Form.Label>Name Of Article</Form.Label>
       <Form.Control type="string" name="name" value={addNew["name"]} onChange={this.onChange}/>
@@ -141,6 +149,17 @@ class Article extends Component {
 
     </Row>
   </Form>
+  <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
   </Col>
  
           }
@@ -166,10 +185,20 @@ class Article extends Component {
       <Button className="colorBtnDark btnClass mr-2 float-right" onClick={this.edit}>Edit</Button>
   </Card.Footer>
 </Card>
+<Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
           </Col>
         }
         return <Col sm={6} xs={12}>
-                <p style={{color:"red"}}>{this.state.message}</p>
         <Card className="mbCard">
         <Card.Img className="imgArticle" variant="top" src={"../../../uploads/article/" + article.pic}/>
         <Card.Body>
@@ -195,8 +224,20 @@ class Article extends Component {
         </Card.Body>
       
       </Card>
+      <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Message</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.message}</Modal.Body>
+          <Modal.Footer>
+            <Button className="colorBtnDark btnClass" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Col>
     }
+    
 }
 
 export {Article}
